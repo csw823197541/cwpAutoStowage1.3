@@ -10,7 +10,11 @@ public class TableModel extends DefaultTableModel{
     public Class getColumnClass(int column) {
         Class returnValue;
         if ((column >= 0) && (column < getColumnCount())) {
-            returnValue = getValueAt(0, column).getClass();
+            if(getValueAt(0, column) != null) {
+                returnValue = getValueAt(0, column).getClass();
+            } else {
+                returnValue = Object.class;
+            }
         } else {
             returnValue = Object.class;
         }

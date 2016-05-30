@@ -21,7 +21,7 @@ class GeneratePreStowageFromKnowStowage6 {
         //去掉过境的箱子
         List<PreStowageData> preStowageDataListNew = new ArrayList<>()
         for(PreStowageData preStowageData : preStowageDataList) {
-            if(preStowageData.getTHROUGHFLAG().equals("N")) {
+            if(preStowageData.getTHROUGHFLAG().equals("N") || preStowageData.getTHROUGHFLAG() == null) {
                 preStowageDataListNew.add(preStowageData)
             }
         }

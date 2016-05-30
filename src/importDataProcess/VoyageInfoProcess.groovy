@@ -41,8 +41,8 @@ class VoyageInfoProcess {
                         voyageInfo.VOTPWKENTM = sdf1.parse(String.valueOf(voyage.VOTPWKENTM))
                     }
                 }
-                voyageInfo.STARTPOSITION = Double.valueOf(voyage.STARTPOSITION).intValue()
-                voyageInfo.ENDPOSITION = Double.valueOf(voyage.ENDPOSITION).intValue()
+                voyageInfo.STARTPOSITION = Integer.valueOf(voyage.STARTPOSITION)
+                voyageInfo.ENDPOSITION = Integer.valueOf(voyage.ENDPOSITION)
                 voyageInfoList.add(voyageInfo)
             }
         }catch (Exception e){

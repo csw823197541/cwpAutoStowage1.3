@@ -9,6 +9,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class MoveFrame extends JFrame {
                     DefaultTableModel tableModel = new DefaultTableModel();
 
                     //增加列名
-                    List<String> colList = MoveInfo.getFiledsInfo();
+                    List<String> colList = new ArrayList<String>(Arrays.asList("gkey", "WORKINGSTARTTIME", "WORKINGENDTIME", "batchId", "moveId", "moveKind", "unitId", "unitLength", "exFromPosition", "exToPosition"));
                     for (String col : colList) {
                         System.out.println(col);
                         tableModel.addColumn(col);
@@ -59,16 +60,17 @@ public class MoveFrame extends JFrame {
                     //增加内容
                     System.out.print("生成内容");
                     for (MoveInfo moveInfo:this.moveInfoList){
-                        Object[] rowData = new Object[9];
+                        Object[] rowData = new Object[10];
                         rowData[0] = moveInfo.getGkey();
                         rowData[1] = moveInfo.getWORKINGSTARTTIME();
-                        rowData[2] = moveInfo.getBatchId();
-                        rowData[3] = moveInfo.getMoveId();
-                        rowData[4] = moveInfo.getMoveKind();
-                        rowData[5] = moveInfo.getUnitId();
-                        rowData[6] = moveInfo.getUnitLength();
-                        rowData[7] = moveInfo.getExFromPosition();
-                        rowData[8] = moveInfo.getExToPosition();
+                        rowData[2] = moveInfo.getWORKINGENDTIME();
+                        rowData[3] = moveInfo.getBatchId();
+                        rowData[4] = moveInfo.getMoveId();
+                        rowData[5] = moveInfo.getMoveKind();
+                        rowData[6] = moveInfo.getUnitId();
+                        rowData[7] = moveInfo.getUnitLength();
+                        rowData[8] = moveInfo.getExFromPosition();
+                        rowData[9] = moveInfo.getExToPosition();
                         tableModel.addRow(rowData);
                     }
                     this.tableWQL.setModel(tableModel);

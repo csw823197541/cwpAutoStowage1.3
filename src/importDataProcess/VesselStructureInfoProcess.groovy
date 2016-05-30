@@ -31,9 +31,10 @@ class VesselStructureInfoProcess {
                 vesselStructureInfo.VTRTIERSEQ = Integer.valueOf(vesselStructure.VTRTIERSEQ)
                 vesselStructureInfo.VRWROWNO = vesselStructure.VRWROWNO
                 vesselStructureInfo.VRWROWSEQ = Integer.valueOf(vesselStructure.VRWROWSEQ)
-                vesselStructureInfo.VLCVWCID = Integer.valueOf(vesselStructure.VLCVWCID)
-//                vesselStructureInfo.CABLENGTH = Integer.valueOf(vesselStructure.CABLENGTH)
+                vesselStructureInfo.CABLENGTH = Integer.valueOf(vesselStructure.CABLENGTH)
                 vesselStructureInfo.CABPOSITION = Integer.valueOf(vesselStructure.CABPOSITION)
+                vesselStructureInfo.weightGradeMin = vesselStructure.weightGradeMin
+                vesselStructureInfo.weightGradeMax = vesselStructure.weightGradeMax
                 vesselStructureInfoList.add(vesselStructureInfo)
             }
         }catch (Exception e){

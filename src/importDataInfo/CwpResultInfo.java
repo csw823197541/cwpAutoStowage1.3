@@ -1,9 +1,11 @@
 package importDataInfo;
 
+import java.util.Date;
+
 /**
  * Created by csw on 2016/1/20.
  */
-public class CwpResultInfo {
+public class CwpResultInfo implements Cloneable{
 
     private String CRANEID;//桥机ID
     private Integer EndMoveID;//结束时，舱内的MoveOrder
@@ -24,8 +26,32 @@ public class CwpResultInfo {
     private Integer craneSeq;//作业某个舱所有桥机的作业顺序
     private Integer hatchSeq;//某个桥机作业哪些舱的顺序
 
+    private Date workingStartTime;     //开始作业时间
+    private Date workingEndTime;        //结束作业时间
+
+    public Date getWorkingStartTime() {
+        return workingStartTime;
+    }
+
+    public void setWorkingStartTime(Date workingStartTime) {
+        this.workingStartTime = workingStartTime;
+    }
+
+    public Date getWorkingEndTime() {
+        return workingEndTime;
+    }
+
+    public void setWorkingEndTime(Date workingEndTime) {
+        this.workingEndTime = workingEndTime;
+    }
+
     public Integer getWorkTimeMinute() {
-        return workTimeMinute;
+        if(WORKINGSTARTTIME == null || WORKINGENDTIME == null){
+            return null;
+        }
+        else{
+            return (WORKINGSTARTTIME-WORKINGENDTIME)/60;
+        }
     }
 
     public void setWorkTimeMinute(Integer workTimeMinute) {
@@ -65,7 +91,12 @@ public class CwpResultInfo {
     }
 
     public Integer getEndMoveID() {
-        return EndMoveID;
+        if(StartMoveID == null || MOVECOUNT == null){
+            return null;
+        }
+        else{
+            return StartMoveID + MOVECOUNT;
+        }
     }
 
     public void setEndMoveID(Integer endMoveID) {
@@ -159,9 +190,9 @@ public class CwpResultInfo {
     public void setREALWORKINGSTARTTIME(Integer REALWORKINGSTARTTIME) {
         this.REALWORKINGSTARTTIME = REALWORKINGSTARTTIME;
     }
-    public CwpResultInfo copyCwpResultInfo(){
-        CwpResultInfo dest = new CwpResultInfo();
-        dest.setLDULD(this.LDULD);
-        return dest;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

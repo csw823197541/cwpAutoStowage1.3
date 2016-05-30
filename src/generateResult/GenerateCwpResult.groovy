@@ -50,7 +50,7 @@ class GenerateCwpResult {
 //                }catch (Exception e) {
 //                    e.printStackTrace()
 //                }
-                cwpResultInfoList = CwpResultInfoProcess.getCwpResultInfo(cwpResultStr)
+                cwpResultInfoList = CwpResultInfoProcess.getCwpResultInfo(cwpResultStr, voyageInfoList)
             } else {
                 System.out.println("cwp算法没有返回结果！")
             }
@@ -140,6 +140,7 @@ class GenerateCwpResult {
         Map<String, Double> hatchPositionMap = new HashMap<>();
         int i = 0;
         int length = vesselStructureInfoList.get(0).getLENGTH()//舱长度
+        int cabL = vesselStructureInfoList.get(0).getCABLENGTH()   //驾驶室长度
         int cabPosition = vesselStructureInfoList.get(0).getCABPOSITION();//驾驶室在哪个倍位号后面
 //        int cabPosition = 30
         String cabBayWei = String.format("%02d", cabPosition);
@@ -157,11 +158,12 @@ class GenerateCwpResult {
                 }
             }
         }
-        Double cjj = 3.28//舱间距3.28英尺
+//        Double cjj = 3.28//舱间距3.28英尺
+        Double cjj = 1.0//舱间距1米
         Double cabLength = 0.0;
         for(String hatchId : hatchIdList) {
             if(hatchId.equals(cabHatchId)) {//当前舱前面有驾驶室
-                cabLength = 46 + cjj
+                cabLength = cabL + cjj
             }
             hatchPositionMap.put(hatchId, Double.valueOf(df.format(startPosition + cabLength + i*(length + cjj))))//假设舱间距为2米，这个数据码头还没回复我是否合理
             i++
@@ -285,7 +287,7 @@ class GenerateCwpResult {
                         workMoveInfo.setMOVETYPE(moveDataList.get(0).getWORKFLOW())
                         workMoveInfo.setLD(moveDataList.get(0).getLDULD())
                         //倍位中心的绝对位置
-                        String bayStr0 = moveDataList.get(0).getVBYBAYID()//去掉倍为号前面的0
+                        String bayStr0 = moveDataList.get(0).getVBYBAYID()//
                         String bayStr1 = moveDataList.get(1).getVBYBAYID()//
                         Double d = Double.valueOf(df.format((bayPositionQuery.get(bayStr0)+bayPositionQuery.get(bayStr1))/2))
                         workMoveInfo.setHORIZONTALPOSITION(d)

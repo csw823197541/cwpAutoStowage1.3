@@ -11,10 +11,9 @@ import java.util.Map;
  */
 public class ImportData {
 
-    public static Map<String,List<String>> moveOrderRecords;      //舱,倍位号和moveOrder确定具体位置
+    public static Map<String,List<String>> moveOrderRecords;      //舱.作业序列.作业工艺确定具体位置
     public static List<Integer> movecounts;     //每个舱move数
     public static Map<String, Integer> moveCountQuery;//根据舱ID查找该舱的moveCount数
-    public static List<BayPositionInfo> bayPositionInfoList;//倍位中心绝对位置
 
     public static Map<String, Double> bayPositionMap;//倍位中心绝对位置
 

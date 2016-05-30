@@ -73,7 +73,7 @@ public class PreStowageDataFrame extends JFrame{
                     }
 
                     //增加内容
-                    Object[] rowData = new Object[14];
+                    Object[] rowData = new Object[16];
                     for (PreStowageData preStowageInfo:preStowageInfoList)
                     {
                         rowData[0] = preStowageInfo.getVHTID();
@@ -90,6 +90,8 @@ public class PreStowageDataFrame extends JFrame{
                         rowData[11] = preStowageInfo.getQCNO();
                         rowData[12] = preStowageInfo.getDSTPORT();
                         rowData[13] = preStowageInfo.getTHROUGHFLAG();
+                        rowData[14] = preStowageInfo.getContainerNum();
+                        rowData[15] = preStowageInfo.getContainerStatus();
                         //System.out.println(rowData[0]+" "+rowData[1]+" "+rowData[2]+" "+rowData[3]);
                         tableModel.addRow(rowData);
                     }

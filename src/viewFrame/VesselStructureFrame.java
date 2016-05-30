@@ -59,7 +59,7 @@ public class VesselStructureFrame extends JFrame {
                         List<VesselStructureInfo> vesselStructureInfos = this.vesselStructureInfoList;
                         System.out.print("生成内容");
                         for (VesselStructureInfo vesselStructureInfo : vesselStructureInfos) {
-                            Object[] rowData = new Object[8];
+                            Object[] rowData = new Object[9];
                             rowData[0] = vesselStructureInfo.getVHTID();
                             rowData[1] = vesselStructureInfo.getLENGTH();
                             rowData[2] = vesselStructureInfo.getVHTPOSITION();
@@ -67,7 +67,8 @@ public class VesselStructureFrame extends JFrame {
                             rowData[4] = vesselStructureInfo.getVBYPOSITION();
                             rowData[5] = vesselStructureInfo.getVTRTIERNO();
                             rowData[6] = vesselStructureInfo.getVRWROWNO();
-                            rowData[7] = vesselStructureInfo.getVLCVWCID();
+                            rowData[7] = vesselStructureInfo.getWeightGradeMin();
+                            rowData[8] = vesselStructureInfo.getWeightGradeMax();
                             tableModel.addRow(rowData);
                         }
                         this.tableWQL.setModel(tableModel);

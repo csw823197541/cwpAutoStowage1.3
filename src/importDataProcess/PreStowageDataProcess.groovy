@@ -24,16 +24,19 @@ class PreStowageDataProcess {
                 preStowageData.VBYBAYID = preStowage.VBYBAYID
                 preStowageData.VTRTIERNO = preStowage.VTRTIERNO
                 preStowageData.VRWROWNO = preStowage.VRWROWNO
-                preStowageData.SIZE = preStowage.CNTSIZE
+                preStowageData.SIZE = preStowage.SIZE
                 preStowageData.CTYPECD = preStowage.CTYPECD
                 preStowageData.GROUPID = ""
-                preStowageData.WEIGHT = Integer.valueOf(preStowage.WEIGHT)
-                preStowageData.MOVEORDER = preStowage.WORKSEQ != "" ? Integer.valueOf(preStowage.WORKSEQ) : 0
+                preStowageData.WEIGHT = preStowage.WEIGHT
+                preStowageData.MOVEORDER = preStowage.MOVEORDER
                 preStowageData.LDULD = preStowage.LDULD
                 preStowageData.WORKFLOW = preStowage.WORKFLOW
                 preStowageData.QCNO = preStowage.QCNO
                 preStowageData.DSTPORT = preStowage.DSTPORT
                 preStowageData.THROUGHFLAG = preStowage.THROUGHFLAG
+
+                preStowageData.containerNum = preStowage.containerNum
+                preStowageData.containerStatus = preStowage.containerStatus
                 preStowageDataList.add(preStowageData)
             }
         }

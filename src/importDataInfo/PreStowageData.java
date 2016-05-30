@@ -19,6 +19,25 @@ public class PreStowageData {
     private String DSTPORT;  //目的港
     private String THROUGHFLAG;  //过境箱标记
 
+    private String containerNum;    //箱号
+    private String containerStatus;     //箱子状态
+
+    public String getContainerNum() {
+        return containerNum;
+    }
+
+    public void setContainerNum(String containerNum) {
+        this.containerNum = containerNum;
+    }
+
+    public String getContainerStatus() {
+        return containerStatus;
+    }
+
+    public void setContainerStatus(String containerStatus) {
+        this.containerStatus = containerStatus;
+    }
+
     public String getVHTID() {
         return VHTID;
     }

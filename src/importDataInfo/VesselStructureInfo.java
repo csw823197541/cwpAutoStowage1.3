@@ -15,10 +15,28 @@ public class VesselStructureInfo {
     private Integer VTRTIERSEQ;//层序号
     private String VRWROWNO;//排号
     private Integer VRWROWSEQ;//排序号
-    private Integer VLCVWCID;//重量等级ID
     private String groupId;//属性组
     private Integer CABPOSITION;//驾驶室位置信息
     private Integer CABLENGTH;//驾驶室长度
+
+    private Integer weightGradeMin;      //重量等级最小值
+    private Integer weightGradeMax;      //重量等级最大值
+
+    public Integer getWeightGradeMin() {
+        return weightGradeMin;
+    }
+
+    public void setWeightGradeMin(Integer weightGradeMin) {
+        this.weightGradeMin = weightGradeMin;
+    }
+
+    public Integer getWeightGradeMax() {
+        return weightGradeMax;
+    }
+
+    public void setWeightGradeMax(Integer weightGradeMax) {
+        this.weightGradeMax = weightGradeMax;
+    }
 
     public String getVHTID() {
         return VHTID;
@@ -90,14 +108,6 @@ public class VesselStructureInfo {
 
     public void setVRWROWSEQ(Integer VRWROWSEQ) {
         this.VRWROWSEQ = VRWROWSEQ;
-    }
-
-    public Integer getVLCVWCID() {
-        return VLCVWCID;
-    }
-
-    public void setVLCVWCID(Integer VLCVWCID) {
-        this.VLCVWCID = VLCVWCID;
     }
 
     public String getGroupId() {
