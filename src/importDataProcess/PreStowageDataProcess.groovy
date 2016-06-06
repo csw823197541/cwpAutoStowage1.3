@@ -35,8 +35,8 @@ class PreStowageDataProcess {
                 preStowageData.DSTPORT = preStowage.DSTPORT
                 preStowageData.THROUGHFLAG = preStowage.THROUGHFLAG
 
-                preStowageData.containerNum = preStowage.containerNum
-                preStowageData.containerStatus = preStowage.containerStatus
+                preStowageData.containerNum = preStowage.CONTAINERNUM
+                preStowageData.containerStatus = preStowage.CONTAINERSTATUS
                 preStowageDataList.add(preStowageData)
             }
         }

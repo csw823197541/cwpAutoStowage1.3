@@ -28,7 +28,7 @@ class ContainerInfoProcess {
                 containerInfo.IYCCTYPECD = container.IYCCTYPECD
                 containerInfo.IYCCSZCSIZECD = container.IYCCSZCSIZECD
                 containerInfo.IYCPORTCD = container.IYCPORTCD//目的港
-                containerInfo.IYCWEIGHT = container.IYCWEIGHT
+                containerInfo.IYCWEIGHT = Integer.valueOf(container.IYCWEIGHT)
                 containerInfo.IYCDNGFG = container.IYCDNGFG
                 containerInfo.IYCREFFG = container.IYCREFFG
                 containerInfo.IYCYLOCATION = container.IYCYLOCATION

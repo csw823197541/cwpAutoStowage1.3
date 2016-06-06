@@ -10,7 +10,7 @@ public class CwpResultMoveInfo {
     private String CRANEID;//桥机ID
 
     private String HATCHID;//舱ID
-    private String vesselPosition;   //船箱位：倍.层.排
+    private String vesselPosition;   //船箱位：倍.排.层
 
     private String VESSELID;//船舶ID
     private Integer WORKINGENDTIME;//结束时间
@@ -24,6 +24,35 @@ public class CwpResultMoveInfo {
     private Date workingStartTime;     //开始作业时间
     private Date workingEndTime;        //结束作业时间
     private Integer moveWorkTime;   //每一个move的作业时间(单位是：秒)
+
+    private String size;    //尺寸
+
+    private Double CranesPosition;//桥机当前位置
+    private String HATCHBWID;//倍位ID
+
+    public Double getCranesPosition() {
+        return CranesPosition;
+    }
+
+    public void setCranesPosition(Double cranesPosition) {
+        CranesPosition = cranesPosition;
+    }
+
+    public String getHATCHBWID() {
+        return HATCHBWID;
+    }
+
+    public void setHATCHBWID(String HATCHBWID) {
+        this.HATCHBWID = HATCHBWID;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
 
     public Integer getMoveOrder() {
         return moveOrder;

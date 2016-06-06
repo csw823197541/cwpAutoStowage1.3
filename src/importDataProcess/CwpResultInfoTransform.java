@@ -102,7 +102,7 @@ public class CwpResultInfoTransform {
                 CwpResultInfo cwpResultInfo = valueMap.get(tKey);
                 cwpResultInfo.setMOVETYPE(null);
                 cwpResultInfo.setLDULD(null);
-                cwpResultInfo.setREALWORKINGSTARTTIME(null);
+//                cwpResultInfo.setREALWORKINGSTARTTIME(null);
                 cwpResultInfo.setCraneSeq(seq++);
                 resultInfoList.add(cwpResultInfo);
             }

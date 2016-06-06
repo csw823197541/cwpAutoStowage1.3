@@ -1,8 +1,6 @@
 package generateResult;
 
-import importDataInfo.AutoStowResultInfo;
-import importDataInfo.CwpResultInfo;
-import importDataInfo.MoveInfo;
+import importDataInfo.*;
 import importDataProcess.ImportData;
 
 import java.util.ArrayList;
@@ -15,74 +13,97 @@ import java.util.Map;
  */
 public class GenerateMoveInfoResult {
 
-    public static List<MoveInfo> getMoveInfoResult(List<CwpResultInfo> cwpResultInfoList, List<AutoStowResultInfo> autoStowResultInfoList){
-        List<MoveInfo> moveInfoList = new ArrayList<MoveInfo>();
+    public static List<MoveInfo> getMoveInfoResult(List<CwpResultMoveInfo> cwpResultMoveInfoList, List<AutoStowResultInfo> autoStowResultInfoList){
+        List<MoveInfo> moveInfoList = new ArrayList<>();
 
-        Map<String,Integer> crane = new HashMap<>();     //桥机的moveID
-        Map<String,List<String>> moveOrderRecords = ImportData.moveOrderRecords;   //根据舱和moveorder确定具体位置
-        Map<String,String[]> autoStowResult = ImportData.autoStowResult;        //自动配载结果
-        List<CwpResultInfo> cwpResultInfoList1 = cwpResultInfoList;            //cwp结果
+        //Map<String,List<PreStowageData>> moveOrderRecords = ImportData.moveOrderRecords;   //根据舱和moveorder确定具体位置
+        Map<String, String[]> autoStowResult = ImportData.autoStowResult;        //自动配载结果,根据船箱位找到配载的箱子信息
+        List<CwpResultMoveInfo> cwpResultMoveInfoList1 = cwpResultMoveInfoList;  //cwp输出结果，以一个箱子为一条记录
 
+        Map<String, Integer> craneOrderMap = new HashMap<>();
+        Map<String, Integer> craneMoveOrderMap = new HashMap<>();
 
-        for (CwpResultInfo cwpResultInfo: cwpResultInfoList1) {
-            try {
-                String craneID = cwpResultInfo.getCRANEID();                //桥机号
-                String hatchID = cwpResultInfo.getHATCHID();                //舱号
-                String hatchBwId = cwpResultInfo.getHATCHBWID();//倍位号
-                Integer startMoveOrder = cwpResultInfo.getStartMoveID();        //舱内开始的moveorder
-                Integer endMoveOrder = cwpResultInfo.getEndMoveID();          //舱内结束的moveorder
-                Integer moveCount = cwpResultInfo.getMOVECOUNT();
-                Integer startTime = cwpResultInfo.getWORKINGSTARTTIME();
-                Integer endTime = cwpResultInfo.getWORKINGENDTIME();
-                String LD = cwpResultInfo.getLDULD();
-                String moveType = cwpResultInfo.getMOVETYPE();
-                Integer singleTime = (endTime-startTime)/moveCount;
-                for (int i = startMoveOrder; i < startMoveOrder + moveCount; i++) {
-                    String hatchMoveOrder = hatchID + "." + String.valueOf(i) + "." + moveType;          //舱号连接编号
-                    List<String> vesselPosition = moveOrderRecords.get(hatchMoveOrder);
-                    if(vesselPosition != null) {
-                        for(String str : vesselPosition) {
-                            MoveInfo moveInfo = new MoveInfo();
-                            moveInfo.setBatchId(craneID);               //批号为桥机号
-                            moveInfo.setMoveKind(LD);
-                            String vp = str.split("\\.")[1] + "" + str.split("\\.")[2] + "" + str.split("\\.")[3];
-                            moveInfo.setVesselPosition(vp);
-                            if (!crane.containsKey(craneID))
-                                crane.put(craneID,0);
-                            Integer moveID = crane.get(craneID) + i - startMoveOrder + 1;     //桥机的move序列
-                            moveInfo.setMoveId(moveID);
-                            moveInfo.setMoveType(moveType);
-                            moveInfo.setGkey(craneID + "@" + moveID.toString());
-//                            moveInfo.setWORKINGSTARTTIME(startTime + singleTime*(i - startMoveOrder));
-                            moveInfo.setWORKINGSTARTTIME(startTime);
-                            moveInfo.setWORKINGENDTIME(endTime);
-                            moveInfo.setWorkingStartTime(cwpResultInfo.getWorkingStartTime());
-                            moveInfo.setWorkingEndTime(cwpResultInfo.getWorkingEndTime());
-                            if(LD.equals("L")) {
-                                moveInfo.setExToPosition(str);
-                                String areaPosition = autoStowResult.get(str)[0];
-                                String unitID = autoStowResult.get(str)[1];
-                                String size = autoStowResult.get(str)[2];
-                                moveInfo.setExFromPosition(areaPosition);
-                                moveInfo.setUnitId(unitID);
-                                moveInfo.setUnitLength(size);
-                            } else {
-                                moveInfo.setExToPosition(str);
-                                String size = autoStowResult.get(str)[2];
-                                moveInfo.setExFromPosition(" ");
-                                moveInfo.setUnitId(" ");
-                                moveInfo.setUnitLength(size);
+        //将数据以不同的桥机进行分组，并且按开始时间排序
+        Map<String, List<CwpResultMoveInfo>> craneMap = new HashMap<>();     //桥机分组
+        for(CwpResultMoveInfo cwpResultMoveInfo : cwpResultMoveInfoList1) {
+            String craneId = cwpResultMoveInfo.getCRANEID();
+            if(craneMap.get(craneId) == null) {
+                List<CwpResultMoveInfo> cwpResultMoveInfos = new ArrayList<>();
+                craneMap.put(craneId, cwpResultMoveInfos);
+            }
+            craneMap.get(craneId).add(cwpResultMoveInfo);
+        }
+
+        for(List<CwpResultMoveInfo> valueList : craneMap.values()) {
+            //调用排序算法，按开始时间排序
+            valueList = sortByStartTime(valueList);
+            int moveID = 0;
+            int lastStartTime = -1;
+            for(int i = 0; i < valueList.size(); i++) {
+                CwpResultMoveInfo cwpResultMoveInfo = valueList.get(i);
+                Integer startTime = cwpResultMoveInfo.getWORKINGSTARTTIME();
+                if(startTime != lastStartTime) {
+                    moveID += 1;
+                }
+                String craneID = cwpResultMoveInfo.getCRANEID();    //桥机号
+                Integer endTime = cwpResultMoveInfo.getWORKINGENDTIME();
+                String LD = cwpResultMoveInfo.getLDULD();
+                String moveType = cwpResultMoveInfo.getMOVETYPE();
+                String vesselP = cwpResultMoveInfo.getVesselPosition();
+
+                MoveInfo moveInfo = new MoveInfo();
+                moveInfo.setBatchId(craneID);
+                moveInfo.setMoveKind(LD);
+                moveInfo.setVesselPosition(vesselP);
+                moveInfo.setExToPosition(vesselP);
+                moveInfo.setMoveId(moveID);
+                moveInfo.setMoveType(moveType);
+                moveInfo.setGkey(craneID + "@" + moveID);
+                moveInfo.setWORKINGSTARTTIME(startTime);
+                moveInfo.setWORKINGENDTIME(endTime);
+                moveInfo.setWorkingStartTime(cwpResultMoveInfo.getWorkingStartTime());
+                moveInfo.setWorkingEndTime(cwpResultMoveInfo.getWorkingEndTime());
+
+                String[] stowResult = autoStowResult.get(vesselP);
+                if(stowResult != null && "L".equals(LD)) {
+                    moveInfo.setExFromPosition(stowResult[0]);
+                    moveInfo.setUnitId(stowResult[1]);
+                    moveInfo.setUnitLength(stowResult[2]);
+                } else {    //预配位上卸船的箱号
+                    Map<String, List<PreStowageData>> stringListMap = ImportData.preStowageDataMap;
+                    if(stringListMap != null) {
+                        List<PreStowageData> preStowageDataList = stringListMap.get(vesselP);
+                        if(preStowageDataList != null) {
+                            for(PreStowageData preStowageData : preStowageDataList) {
+                                if("D".equals(preStowageData.getLDULD())) {
+                                    moveInfo.setUnitId(preStowageData.getContainerNum());
+                                }
                             }
-                            moveInfoList.add(moveInfo);
                         }
                     }
                 }
-                crane.put(craneID, crane.get(craneID) + moveCount);
-            }
-            catch (Exception e){
-                e.printStackTrace();
+                moveInfoList.add(moveInfo);
+                lastStartTime = startTime;
             }
         }
         return moveInfoList;
+    }
+
+    private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {
+
+        List<CwpResultMoveInfo> returnList = new ArrayList<>();
+
+        for(int i = 0; i < valueList.size(); i++) {
+            CwpResultMoveInfo current = valueList.get(i);
+            for(int j = i; j < valueList.size(); j++) {
+                CwpResultMoveInfo min = valueList.get(j);
+                if(current.getWORKINGSTARTTIME() > min.getWORKINGSTARTTIME()) {
+                   current = min;
+                }
+            }
+            returnList.add(current);
+        }
+
+        return returnList;
     }
 }

@@ -20,7 +20,7 @@ public class MoveInfo {
     private String exFromPosition;      //计划提箱位置
     private String exToPosition;       //计划放箱位置
 
-    private String vesselPosition;   //船箱位：倍.层.排
+    private String vesselPosition;   //船箱位：倍.排.层
     private Date workingStartTime;    //开始时间
     private Date workingEndTime;    //结束时间
 

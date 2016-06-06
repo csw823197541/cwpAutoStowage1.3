@@ -1,30 +1,29 @@
 package importDataProcess;
 
 import generateResult.*;
-import importDataInfo.PreStowageData;
 import importDataInfo.*;
 import utils.FileUtil;
-import viewFrame.PreStowageDataFrame;
 import viewFrame.*;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test5_24 {
+public class Test6_01 {
     public static void main(String[] args) {
 
-        String vo = FileUtil.readFileToString(new File("5.24data/voy.txt")).toString();
+        String vo = FileUtil.readFileToString(new File("6.01data/voyinfo.txt")).toString();
 
-        String sh = FileUtil.readFileToString(new File("5.24data/vesselstructure.txt")).toString();
+        String sh = FileUtil.readFileToString(new File("6.01data/vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File("5.24data/crane1.txt")).toString();
+        String cr = FileUtil.readFileToString(new File("6.01data/craneinfo.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File("5.24data/container.txt")).toString();
+        String co = FileUtil.readFileToString(new File("6.01data/containers.txt")).toString();
 
-        String ca = FileUtil.readFileToString(new File("5.24data/area.txt")).toString();
+        String ca = FileUtil.readFileToString(new File("6.01data/area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
@@ -36,6 +35,9 @@ public class Test5_24 {
         ImportData.vesselStructureInfoList = vesselStructureInfoList;
         VesselStructureFrame vesselStructureFrame = new VesselStructureFrame(vesselStructureInfoList);
         vesselStructureFrame.setVisible(true);
+
+        //测试产生查询倍位绝对坐标的方法
+        Map<String, Double> bayPositionMap = GenerateBayPositionQuery.getBayPositionMap(voyageInfoList, vesselStructureInfoList);
 
 
 //        //桥机
@@ -59,7 +61,7 @@ public class Test5_24 {
         groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File("5.24data/perstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File("6.01data/perstowandstow.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
         List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
@@ -80,7 +82,7 @@ public class Test5_24 {
 
         //测试自动配载算法
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoList);
-        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(cwpResultInfoList, autoStowInfoList);
+        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 

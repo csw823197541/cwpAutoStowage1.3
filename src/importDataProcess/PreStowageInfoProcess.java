@@ -54,8 +54,10 @@ public class PreStowageInfoProcess {
             temp+=containerAreaInfo.getVRWNUM().toString()+",";
             temp+=containerAreaInfo.getSCTYPE()+",";
             temp+=containerAreaInfo.getWORKEFFICIENCYB().toString()+",";
-            temp+=containerAreaInfo.getDISPATCHEDWORK().toString()+",";
-            temp+=containerAreaInfo.getPREDISPATCHEDWORK().toString()+",";
+            String disP = containerAreaInfo.getDISPATCHEDWORK() == null ? "0" : containerAreaInfo.getDISPATCHEDWORK().toString();
+            String preDisP = containerAreaInfo.getPREDISPATCHEDWORK() == null ? "0" : containerAreaInfo.getPREDISPATCHEDWORK().toString();
+            temp+=disP+",";
+            temp+=preDisP+",";
             temp+=containerAreaInfo.getWORKEFFICIENCYT().toString()+"#";
             containerArea+=temp;
         }
@@ -77,7 +79,8 @@ public class PreStowageInfoProcess {
             temp+=preStowageData.getSIZE()+",";
             temp+=preStowageData.getDSTPORT()+",";
             temp+=preStowageData.getCTYPECD()+",";
-            temp+=preStowageData.getWEIGHT().toString()+",";
+            String weight = preStowageData.getWEIGHT() == null ? "" : preStowageData.getWEIGHT().toString();
+            temp+=weight+",";
             temp+=preStowageData.getMOVEORDER().toString()+"#";
             preStowage+=temp;
         }
@@ -107,4 +110,26 @@ public class PreStowageInfoProcess {
         }
         return cwpOutput;
     }
+
+//    public static String getCwpResultString(List<CwpResultMoveInfo> cwpResultMoveInfoList) {
+//        //生成cwp输出结果
+//        String cwpOutput="";
+//        List<CwpResultMoveInfo> cwpResultMoveInfoList1 = cwpResultMoveInfoList;
+//        for (CwpResultMoveInfo cwpResultMoveInfo : cwpResultMoveInfoList1)
+//        {
+//            String temp="";
+//            temp+=cwpResultMoveInfo.getCRANEID().toString()+",";
+//            temp+=cwpResultMoveInfo.getCranesPosition().toString()+",";
+//            temp+=cwpResultMoveInfo.getHATCHBWID().toString()+",";
+//            temp+=cwpResultMoveInfo.getHATCHID().toString()+",";
+//            temp+=cwpResultMoveInfo.getMoveOrder().toString()+",";
+//            temp+=cwpResultMoveInfo.getVESSELID().toString()+",";
+//            temp+=cwpResultMoveInfo.getMOVETYPE().toString()+",";
+//            temp+=cwpResultMoveInfo.getLDULD()+",";
+//            temp+=cwpResultMoveInfo.getWORKINGENDTIME().toString()+",";
+//            temp+=cwpResultMoveInfo.getWORKINGSTARTTIME().toString()+"#";
+//            cwpOutput+=temp;
+//        }
+//        return cwpOutput;
+//    }
 }

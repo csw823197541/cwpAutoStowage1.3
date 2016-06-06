@@ -4,6 +4,7 @@ import cwp.CallCwpTest
 import importDataInfo.*
 import importDataProcess.*
 import utils.FileUtil
+import viewFrame.VesselStructureFrame
 
 import java.text.DecimalFormat
 
@@ -108,7 +109,7 @@ class GenerateCwpResult {
     public
     static List<HatchPositionInfo> getHatchPositionInfoList(List<VoyageInfo> voyageInfoList, List<VesselStructureInfo> vesselStructureInfoList) {
 
-        Set<String> hatchSet = new HashSet<String>();          //舱集合
+        Set<String> hatchSet = new HashSet<String>();   //舱集合
 
         List<HatchPositionInfo> hatchPositionInfoList = new ArrayList<>();
 
@@ -175,9 +176,9 @@ class GenerateCwpResult {
             Set<String> bayWeiSet = hatchBayWeiMap.get(hatchId)
             Double hatchPosition = hatchPositionMap.get(hatchId)//舱的位置
             if(bayWeiSet.size() == 2) {//两个倍位
-                Double position1 = hatchPosition + length/4
-                Double position2 = hatchPosition + 3*length/4
-                Double position3 = hatchPosition + length/2
+                Double position1 = hatchPosition + Double.valueOf(length)/4
+                Double position2 = hatchPosition + 3*Double.valueOf(length)/4
+                Double position3 = hatchPosition + Double.valueOf(length)/2
                 List<String> bayWeiList = bayWeiSet.toList()
                 String bayWei1 = bayWeiList.get(0)
                 String bayWei2 = bayWeiList.get(1)
@@ -190,7 +191,7 @@ class GenerateCwpResult {
                 bayWeiPositionMap.put(bayWei3, Double.valueOf(df.format(position3)))
             }
             if(bayWeiSet.size() == 1) {//一个倍位
-                Double position = hatchPosition + length/2
+                Double position = hatchPosition + Double.valueOf(length)/2
                 List<String> bayWeiList = bayWeiSet.toList()
                 String bayWei = bayWeiList.get(0)
                 bayWeiPositionMap.put(bayWei, Double.valueOf(df.format(position)))
@@ -231,7 +232,7 @@ class GenerateCwpResult {
      * @param preStowageInfoList
      * @return
      */
-    private static List<WorkMoveInfo> getWorkMoveInfoList(List<PreStowageData> preStowageDataList) {
+    private static List<WorkMoveInfo> getWorkMoveInfoList(List<PreStowageData> preStowageDataList) throws Exception{
 
         Map<String, List<String>> moveOrderRecords = new HashMap<>();
 
@@ -299,7 +300,7 @@ class GenerateCwpResult {
                         List<String> positionList = new ArrayList<>()
                         positionList.add(vesselPosition1)
                         positionList.add(vesselPosition2)
-                        moveOrderRecords.put(key,positionList)
+                        moveOrderRecords.put(key, positionList)
                     }
                     if(moveDataList.get(0).getVBYBAYID().equals(
                             moveDataList.get(1).getVBYBAYID())) {//倍位号相同，为双吊具
@@ -323,7 +324,7 @@ class GenerateCwpResult {
                         List<String> positionList = new ArrayList<>()
                         positionList.add(vesselPosition1)
                         positionList.add(vesselPosition2)
-                        moveOrderRecords.put(key,positionList)
+                        moveOrderRecords.put(key, positionList)
                     }
                 } else {//单吊具
                     workMoveInfo.setCWPWORKMOVENUM(order)
@@ -344,7 +345,7 @@ class GenerateCwpResult {
                     String vesselPosition1 = hatchId + "." + moveDataList.get(0).getVBYBAYID() +"." + moveDataList.get(0).getVTRTIERNO() + "." + moveDataList.get(0).getVRWROWNO()
                     List<String> positionList = new ArrayList<>()
                     positionList.add(vesselPosition1)
-                    moveOrderRecords.put(key,positionList)
+                    moveOrderRecords.put(key, positionList)
                 }
                 workMoveInfoList.add(workMoveInfo)
             }

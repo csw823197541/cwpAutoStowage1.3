@@ -66,32 +66,33 @@ public class PreStowageDataFrame extends JFrame{
                     final TableModel tableModel = new TableModel();
 //                    DefaultTableModel tableModel = new DefaultTableModel();
                     //增加列名
-                    ArrayList<String> colList = new ArrayList<String>(Arrays.asList("舱号","倍号", "层号", "排号", "尺寸","箱型", "属性组","重量等级","MoveOrder", "装卸船标志", "作业工艺", "桥机号", "目的港", "过境箱标记"));
+                    ArrayList<String> colList = new ArrayList<String>(Arrays.asList("舱号","倍号", "层号", "排号", "箱号", "尺寸","箱型", "属性组","重量等级","MoveOrder", "装卸船标志", "作业工艺", "桥机号", "目的港", "过境箱标记"));
                     for (String col : colList) {
                         System.out.println(col);
                         tableModel.addColumn(col);
                     }
 
                     //增加内容
-                    Object[] rowData = new Object[16];
+                    Object[] rowData = new Object[17];
                     for (PreStowageData preStowageInfo:preStowageInfoList)
                     {
                         rowData[0] = preStowageInfo.getVHTID();
                         rowData[1] = preStowageInfo.getVBYBAYID();
                         rowData[2] = preStowageInfo.getVTRTIERNO();
                         rowData[3] = preStowageInfo.getVRWROWNO();
-                        rowData[4] = preStowageInfo.getSIZE();
-                        rowData[5] = preStowageInfo.getCTYPECD();
-                        rowData[6] = preStowageInfo.getGROUPID();
-                        rowData[7] = preStowageInfo.getWEIGHT();
-                        rowData[8] = preStowageInfo.getMOVEORDER();
-                        rowData[9] = preStowageInfo.getLDULD();
-                        rowData[10] = preStowageInfo.getWORKFLOW();
-                        rowData[11] = preStowageInfo.getQCNO();
-                        rowData[12] = preStowageInfo.getDSTPORT();
-                        rowData[13] = preStowageInfo.getTHROUGHFLAG();
-                        rowData[14] = preStowageInfo.getContainerNum();
-                        rowData[15] = preStowageInfo.getContainerStatus();
+                        rowData[4] = preStowageInfo.getContainerNum();
+                        rowData[5] = preStowageInfo.getSIZE();
+                        rowData[6] = preStowageInfo.getCTYPECD();
+                        rowData[7] = preStowageInfo.getGROUPID();
+                        rowData[8] = preStowageInfo.getWEIGHT();
+                        rowData[9] = preStowageInfo.getMOVEORDER();
+                        rowData[10] = preStowageInfo.getLDULD();
+                        rowData[11] = preStowageInfo.getWORKFLOW();
+                        rowData[12] = preStowageInfo.getQCNO();
+                        rowData[13] = preStowageInfo.getDSTPORT();
+                        rowData[14] = preStowageInfo.getTHROUGHFLAG();
+                        rowData[15] = preStowageInfo.getContainerNum();
+                        rowData[16] = preStowageInfo.getContainerStatus();
                         //System.out.println(rowData[0]+" "+rowData[1]+" "+rowData[2]+" "+rowData[3]);
                         tableModel.addRow(rowData);
                     }

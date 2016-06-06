@@ -23,7 +23,7 @@ public class CwpResultInfoToMove {
         for(CwpResultInfo cwpResultInfo : cwpResultInfoListIn) {
 
             int moveCount = cwpResultInfo.getMOVECOUNT();
-            int startTime = cwpResultInfo.getWORKINGSTARTTIME();
+            int startTime = cwpResultInfo.getREALWORKINGSTARTTIME();
             int endTime = cwpResultInfo.getWORKINGENDTIME();
             Date startTimeDate = cwpResultInfo.getWorkingStartTime();
             int singleMoveWorkTime = (endTime-startTime)/moveCount; //做一个move的时间
@@ -33,6 +33,9 @@ public class CwpResultInfoToMove {
             String vesselId = cwpResultInfo.getVESSELID();
             String moveType = cwpResultInfo.getMOVETYPE();
             String LD = cwpResultInfo.getLDULD();
+            Double cranePosition = cwpResultInfo.getCranesPosition();
+            String bayId = cwpResultInfo.getHATCHBWID();
+            String size = Integer.valueOf(bayId)%2 == 0 ? "40" : "20";
 
             int startMoveOrder = cwpResultInfo.getStartMoveID();
 
@@ -58,8 +61,11 @@ public class CwpResultInfoToMove {
                         cwpResultMoveInfo.setVESSELID(vesselId);
                         cwpResultMoveInfo.setMOVETYPE(moveType);
                         cwpResultMoveInfo.setLDULD(LD);
+                        cwpResultMoveInfo.setSize(size);
+                        cwpResultMoveInfo.setCranesPosition(cranePosition);
+                        cwpResultMoveInfo.setHATCHBWID(bayId);
 
-                        String vp = vesselPositionStr.split("\\.")[1] + "" + vesselPositionStr.split("\\.")[2] + "" + vesselPositionStr.split("\\.")[3];
+                        String vp = vesselPositionStr.split("\\.")[1] + "" + vesselPositionStr.split("\\.")[3] + "" + vesselPositionStr.split("\\.")[2];
                         cwpResultMoveInfo.setVesselPosition(vp);
 
                         resultInfoList.add(cwpResultMoveInfo);
@@ -71,5 +77,25 @@ public class CwpResultInfoToMove {
 
         return resultInfoList;
 
+    }
+
+    public static List<CwpResultMoveInfo> getOneMoveInfo(List<CwpResultMoveInfo> cwpResultMoveInfoList) {
+        List<CwpResultMoveInfo> resultMoveInfoList = new ArrayList<>();
+
+        List<String> hatchIdMoveOrder = new ArrayList<>();
+        try{
+            for(CwpResultMoveInfo cwpResultMoveInfo : cwpResultMoveInfoList) {
+                String hatchId = cwpResultMoveInfo.getHATCHID();
+                int moveOrder = cwpResultMoveInfo.getMoveOrder();
+                String hm = hatchId + "" + moveOrder;
+                if(!hatchIdMoveOrder.contains(hm)) {
+                    hatchIdMoveOrder.add(hm);
+                    resultMoveInfoList.add(cwpResultMoveInfo);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return resultMoveInfoList;
     }
 }
