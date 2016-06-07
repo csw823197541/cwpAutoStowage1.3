@@ -17,7 +17,7 @@ import java.util.Map;
 public class GenerateAutoStowResult {
 
     //调用自动配载
-    public static List<AutoStowResultInfo> getAutoStowResult(List<GroupInfo> groupInfoList, List<ContainerInfo> containerInfoList, List<ContainerAreaInfo> containerAreaInfoList, List<PreStowageData> preStowageDataList, List<CwpResultInfo> cwpResultInfoList) {
+    public static List<AutoStowResultInfo> getAutoStowResult(List<GroupInfo> groupInfoList, List<ContainerInfo> containerInfoList, List<ContainerAreaInfo> containerAreaInfoList, List<PreStowageData> preStowageDataList, List<CwpResultMoveInfo> cwpResultMoveInfoList) {
         List<AutoStowResultInfo> autoStowResultInfoList = new ArrayList<AutoStowResultInfo>();
 
         //处理在场箱信息
@@ -40,7 +40,7 @@ public class GenerateAutoStowResult {
             e.printStackTrace();
         }
         //处理cwp输出信息
-        String cwpResultStr = PreStowageInfoProcess.getCwpResultString(cwpResultInfoList);
+        String cwpResultStr = PreStowageInfoProcess.getCwpResultString(cwpResultMoveInfoList);
         cwpResultStr = cwpResultStr.substring(0, cwpResultStr.length() - 1);
 
         try {//将自动配载要用的结果写在文件里
@@ -56,7 +56,7 @@ public class GenerateAutoStowResult {
 
             System.out.println("自动配载算法返回的结果：" + autoStowStr);
             if (autoStowStr != null) {
-                autoStowResultInfoList = getAutoStowResult(autoStowStr, preStowageDataList);
+                autoStowResultInfoList = getAutoStowResult(autoStowStr, preStowageDataList, containerInfoList);
             } else {
                 System.out.println("自动配载算法没有返回结果！");
             }
@@ -67,11 +67,12 @@ public class GenerateAutoStowResult {
     }
 
 
-    public static List<AutoStowResultInfo> getAutoStowResult(String autoStowStr, List<PreStowageData> preStowageDataList) {
+    public static List<AutoStowResultInfo> getAutoStowResult(String autoStowStr, List<PreStowageData> preStowageDataList, List<ContainerInfo> containerInfoList) {
 
         List<AutoStowResultInfo> autoStowResultInfoList = new ArrayList<>();
         Map<String, String[]> stringMap = new HashMap<>();
         try {
+            Long voyId = containerInfoList.get(0).getIYCVOYID().longValue();
             //根据预配图得到船箱位查询的Map,由于一个船箱位，可能是先卸箱子，然后再装箱子，所以可能一个位子对应两个箱子
             Map<String, List<PreStowageData>> preStowageDataMap = new HashMap<>();
             for(PreStowageData preStowageData : preStowageDataList) {
@@ -98,6 +99,7 @@ public class GenerateAutoStowResult {
                 String cxw = str[i].split(",")[2];
                 String wz = weiZi[1] + "" + weiZi[3] + "" + weiZi[2];//key,船上的位置：倍排层
                 AutoStowResultInfo autoStowResultInfo = new AutoStowResultInfo();
+                autoStowResultInfo.setVoyId(voyId);
                 List<PreStowageData> preStowageDataList1 = preStowageDataMap.get(wz);
                 if(preStowageDataList1 != null) {
                     for(PreStowageData preStowageData : preStowageDataList1) {

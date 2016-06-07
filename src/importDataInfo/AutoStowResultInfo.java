@@ -8,6 +8,15 @@ public class AutoStowResultInfo {
     private String vesselPosition;   //船上位置
     private String areaPosition;     //箱区位置
     private String size;        //尺寸
+    private Long voyId;    //艘次信息
+
+    public Long getVoyId() {
+        return voyId;
+    }
+
+    public void setVoyId(Long voyId) {
+        this.voyId = voyId;
+    }
 
     public String getUnitID() {
         return unitID;

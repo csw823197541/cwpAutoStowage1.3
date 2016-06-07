@@ -75,7 +75,7 @@ class GenerateCwpResult {
         HatchInfo newHatchInfo;
         Date workingStartTime = voyageInfoList.get(0).getVOTPWKSTTM();
         Date workingEndTime = voyageInfoList.get(0).getVOTPWKENTM();
-        String vesselID = voyageInfoList.get(0).getVESSELID();
+        String vesselID = voyageInfoList.get(0).getVESSELID() == null ? "" : String.valueOf(voyageInfoList.get(0).getVESSELID());
         WorkingTimeRange workingTimeRange = new WorkingTimeRange();
         workingTimeRange.setID(null);
         workingTimeRange.setWORKSTARTTIME(workingStartTime);
