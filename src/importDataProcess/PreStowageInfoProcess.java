@@ -127,8 +127,8 @@ public class PreStowageInfoProcess {
             temp+=cwpResultMoveInfo.getHATCHBWID().toString()+",";
             temp+=cwpResultMoveInfo.getHATCHID().toString()+",";
             temp+=cwpResultMoveInfo.getMoveOrder().toString()+",";  //开始moveOrderId
-            temp+="1,"; //moveCount
-            temp+="0,";
+//            temp+="1,"; //moveCount
+//            temp+="0,";
 //            temp+=cwpResultMoveInfo.getMoveOrder().toString()+",";
             temp+=cwpResultMoveInfo.getVESSELID().toString()+",";
             temp+=cwpResultMoveInfo.getMOVETYPE().toString()+",";

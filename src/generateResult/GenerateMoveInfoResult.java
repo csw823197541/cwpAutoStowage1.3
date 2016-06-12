@@ -16,12 +16,14 @@ public class GenerateMoveInfoResult {
     public static List<MoveInfo> getMoveInfoResult(List<CwpResultMoveInfo> cwpResultMoveInfoList, List<AutoStowResultInfo> autoStowResultInfoList){
         List<MoveInfo> moveInfoList = new ArrayList<>();
 
-        //Map<String,List<PreStowageData>> moveOrderRecords = ImportData.moveOrderRecords;   //根据舱和moveorder确定具体位置
-        Map<String, String[]> autoStowResult = ImportData.autoStowResult;        //自动配载结果,根据船箱位找到配载的箱子信息
+        Map<String, AutoStowResultInfo> autoStowResult = new HashMap<>();        //自动配载结果,根据船箱位找到配载的箱子信息
+        for(AutoStowResultInfo autoStowResultInfo : autoStowResultInfoList) {
+            autoStowResult.put(autoStowResultInfo.getVesselPosition(), autoStowResultInfo);
+        }
+
         List<CwpResultMoveInfo> cwpResultMoveInfoList1 = cwpResultMoveInfoList;  //cwp输出结果，以一个箱子为一条记录
 
-        Map<String, Integer> craneOrderMap = new HashMap<>();
-        Map<String, Integer> craneMoveOrderMap = new HashMap<>();
+
 
         //将数据以不同的桥机进行分组，并且按开始时间排序
         Map<String, List<CwpResultMoveInfo>> craneMap = new HashMap<>();     //桥机分组
@@ -64,11 +66,11 @@ public class GenerateMoveInfoResult {
                 moveInfo.setWorkingStartTime(cwpResultMoveInfo.getWorkingStartTime());
                 moveInfo.setWorkingEndTime(cwpResultMoveInfo.getWorkingEndTime());
 
-                String[] stowResult = autoStowResult.get(vesselP);
+                AutoStowResultInfo stowResult = autoStowResult.get(vesselP);
                 if(stowResult != null && "L".equals(LD)) {
-                    moveInfo.setExFromPosition(stowResult[0]);
-                    moveInfo.setUnitId(stowResult[1]);
-                    moveInfo.setUnitLength(stowResult[2]);
+                    moveInfo.setExFromPosition(stowResult.getAreaPosition());
+                    moveInfo.setUnitId(stowResult.getUnitID());
+                    moveInfo.setUnitLength(stowResult.getSize());
                 } else {    //预配位上卸船的箱号
                     Map<String, List<PreStowageData>> stringListMap = ImportData.preStowageDataMap;
                     if(stringListMap != null) {

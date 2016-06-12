@@ -54,6 +54,12 @@ public class GenerateAutoStowResult {
             //调用自动配载算法
             autoStowStr = CallAutoStow.autoStow(containerStr, containerAreaStr, preStowageStr, cwpResultStr);
 
+            try {//将自动配载要用的结果写在文件里
+                FileUtil.writeToFile("toAutoStowData/autoStowResult.txt", autoStowStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             System.out.println("自动配载算法返回的结果：" + autoStowStr);
             if (autoStowStr != null) {
                 autoStowResultInfoList = getAutoStowResult(autoStowStr, preStowageDataList, containerInfoList);
@@ -106,19 +112,18 @@ public class GenerateAutoStowResult {
                         if("L".equals(preStowageData.getLDULD())) {
                             autoStowResultInfo.setVesselPosition(wz);
                             String[] value = new String[3];//value,0放箱区位置，1放箱号，2放尺寸
-                            if (!cxw.equals(" unstowed")) {
-                                String[] cangxiangwei = cxw.split("%");
+                            if (!cxw.startsWith(" unStowed")) {
+                                String[] cangxiangwei = cxw.trim().split("%");
                                 value[0] = cangxiangwei[0] + "" + cangxiangwei[1] + "" + cangxiangwei[2] + "" + cangxiangwei[3];
+                                value[1] = xiangHao;
+                                autoStowResultInfo.setUnStowedReason("stowed ok");
                             } else {
                                 value[0] = "?";
-                            }
-                            if (!xiangHao.equals(" ")) {
-                                value[1] = xiangHao;
-                            } else {
                                 value[1] = "?";
+                                autoStowResultInfo.setUnStowedReason(cxw);
                             }
-                            autoStowResultInfo.setAreaPosition(value[0]);
-                            autoStowResultInfo.setUnitID(value[1]);
+                            autoStowResultInfo.setAreaPosition(value[0].trim());
+                            autoStowResultInfo.setUnitID(value[1].trim());
                             if (Integer.valueOf(weiZi[1]) % 2 != 0) {//倍为基数
                                 value[2] = "20";
                             } else {

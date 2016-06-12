@@ -9,6 +9,15 @@ public class AutoStowResultInfo {
     private String areaPosition;     //箱区位置
     private String size;        //尺寸
     private Long voyId;    //艘次信息
+    private String unStowedReason;  //未配载原因
+
+    public String getUnStowedReason() {
+        return unStowedReason;
+    }
+
+    public void setUnStowedReason(String unStowedReason) {
+        this.unStowedReason = unStowedReason;
+    }
 
     public Long getVoyId() {
         return voyId;

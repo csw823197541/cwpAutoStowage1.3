@@ -8,7 +8,10 @@ import java.io.File;
 public class CallAutoStow {
 
     static {
-        System.loadLibrary("AutoStowToJava3");
+//        System.loadLibrary("AutoStowToJava4");
+
+        String filePath = System.getProperty("user.dir") + File.separator + "lib" + File.separator;
+        System.load(filePath + "AutoStowToJava4.dll");
     }
 
     public static native String callAutoStow(String str1, String str2, String str3, String str4);
