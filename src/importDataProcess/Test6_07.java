@@ -79,7 +79,11 @@ public class Test6_07 {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList);
-
+        for(CwpResultMoveInfo cwpResultMoveInfo : cwpResultInfoToMoveList) {
+            if(cwpResultMoveInfo.getMoveOrder() == 130) {
+                System.out.println(cwpResultMoveInfo.getHATCHID()+"----"+cwpResultMoveInfo.getWORKINGSTARTTIME() +"----"+cwpResultMoveInfo.getWORKINGENDTIME() +"----"+cwpResultMoveInfo.getWorkingStartTime() +"----"+cwpResultMoveInfo.getWorkingEndTime());
+            }
+        }
         //测试自动配载算法
         List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultInfoToMove.getOneMoveInfo(cwpResultInfoToMoveList);
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
