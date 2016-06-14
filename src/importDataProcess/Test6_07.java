@@ -87,7 +87,7 @@ public class Test6_07 {
         //测试自动配载算法
         List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultInfoToMove.getOneMoveInfo(cwpResultInfoToMoveList);
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
-        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(cwpResultInfoToMoveList, autoStowInfoList);
+        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 

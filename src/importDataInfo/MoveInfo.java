@@ -25,6 +25,15 @@ public class MoveInfo {
     private Date workingEndTime;    //结束时间
 
     private String moveType;    //作业工艺
+    private Long voyId; //航次Id，艘次
+
+    public Long getVoyId() {
+        return voyId;
+    }
+
+    public void setVoyId(Long voyId) {
+        this.voyId = voyId;
+    }
 
     public String getMoveType() {
         return moveType;

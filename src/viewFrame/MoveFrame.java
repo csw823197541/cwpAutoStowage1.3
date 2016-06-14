@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.text.Collator;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,7 +24,7 @@ public class MoveFrame extends JFrame {
     private JTable tableWQL;
 
     private List<MoveInfo> moveInfoList;
-
+    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public MoveFrame(List<MoveInfo> moveInfoList) {
         this.moveInfoList = moveInfoList;
@@ -51,7 +52,7 @@ public class MoveFrame extends JFrame {
                     DefaultTableModel tableModel = new DefaultTableModel();
 
                     //增加列名
-                    List<String> colList = new ArrayList<String>(Arrays.asList("gkey", "WORKINGSTARTTIME", "WORKINGENDTIME", "batchId", "moveId", "moveKind", "unitId", "unitLength", "exFromPosition", "exToPosition"));
+                    List<String> colList = new ArrayList<String>(Arrays.asList("gkey", "航次", "开始时间", "结束时间", "桥机号", "顺序号", "作业工艺", "装卸", "箱号", "尺寸", "场箱位", "船箱位"));
                     for (String col : colList) {
                         System.out.println(col);
                         tableModel.addColumn(col);
@@ -60,17 +61,19 @@ public class MoveFrame extends JFrame {
                     //增加内容
                     System.out.print("生成内容");
                     for (MoveInfo moveInfo:this.moveInfoList){
-                        Object[] rowData = new Object[10];
+                        Object[] rowData = new Object[12];
                         rowData[0] = moveInfo.getGkey();
-                        rowData[1] = moveInfo.getWORKINGSTARTTIME();
-                        rowData[2] = moveInfo.getWORKINGENDTIME();
-                        rowData[3] = moveInfo.getBatchId();
-                        rowData[4] = moveInfo.getMoveId();
-                        rowData[5] = moveInfo.getMoveKind();
-                        rowData[6] = moveInfo.getUnitId();
-                        rowData[7] = moveInfo.getUnitLength();
-                        rowData[8] = moveInfo.getExFromPosition();
-                        rowData[9] = moveInfo.getExToPosition();
+                        rowData[1] = moveInfo.getVoyId();
+                        rowData[2] = sdf.format(moveInfo.getWorkingStartTime());
+                        rowData[3] = sdf.format(moveInfo.getWorkingEndTime());
+                        rowData[4] = moveInfo.getBatchId();
+                        rowData[5] = moveInfo.getMoveId();
+                        rowData[6] = moveInfo.getMoveType();
+                        rowData[7] = moveInfo.getMoveKind();
+                        rowData[8] = moveInfo.getUnitId();
+                        rowData[9] = moveInfo.getUnitLength();
+                        rowData[10] = moveInfo.getExFromPosition();
+                        rowData[11] = moveInfo.getExToPosition();
                         tableModel.addRow(rowData);
                     }
                     this.tableWQL.setModel(tableModel);
@@ -106,18 +109,18 @@ public class MoveFrame extends JFrame {
                         }
                     };
 
-                    tableRowSorter.setComparator(tableWQL.getColumn("moveId").getModelIndex(), numberComparator);
-                    tableRowSorter.setComparator(tableWQL.getColumn("WORKINGSTARTTIME").getModelIndex(), numberComparator);
+                    tableRowSorter.setComparator(tableWQL.getColumn("顺序号").getModelIndex(), numberComparator);
+//                    tableRowSorter.setComparator(tableWQL.getColumn("WORKINGSTARTTIME").getModelIndex(), numberComparator);
 
                     tableWQL.setRowSorter(tableRowSorter);
                     //设置排序属性
                     RowSorter.SortKey sortKey = new RowSorter.SortKey(tableWQL.getColumn("gkey").getModelIndex(),SortOrder.ASCENDING);
-                    RowSorter.SortKey sortKey1 = new RowSorter.SortKey(tableWQL.getColumn("moveId").getModelIndex(),SortOrder.ASCENDING);
-                    RowSorter.SortKey sortKey2 = new RowSorter.SortKey(tableWQL.getColumn("WORKINGSTARTTIME").getModelIndex(),SortOrder.ASCENDING);
+                    RowSorter.SortKey sortKey1 = new RowSorter.SortKey(tableWQL.getColumn("顺序号").getModelIndex(),SortOrder.ASCENDING);
+//                    RowSorter.SortKey sortKey2 = new RowSorter.SortKey(tableWQL.getColumn("WORKINGSTARTTIME").getModelIndex(),SortOrder.ASCENDING);
                     List<RowSorter.SortKey> sortKeyList = new ArrayList<RowSorter.SortKey>();
                     sortKeyList.add(sortKey);
                     sortKeyList.add(sortKey1);
-                    sortKeyList.add(sortKey2);
+//                    sortKeyList.add(sortKey2);
                     tableRowSorter.setSortKeys(sortKeyList);
                     tableRowSorter.setSortsOnUpdates(true);
                 }

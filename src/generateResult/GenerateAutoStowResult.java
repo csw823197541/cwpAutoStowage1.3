@@ -79,20 +79,6 @@ public class GenerateAutoStowResult {
         Map<String, String[]> stringMap = new HashMap<>();
         try {
             Long voyId = containerInfoList.get(0).getIYCVOYID().longValue();
-            //根据预配图得到船箱位查询的Map,由于一个船箱位，可能是先卸箱子，然后再装箱子，所以可能一个位子对应两个箱子
-//            Map<String, PreStowageData> preStowageDataMap = new HashMap<>();
-//            for(PreStowageData preStowageData : preStowageDataList) {
-//                String bayId = preStowageData.getVBYBAYID();    //倍号
-//                String rowId = preStowageData.getVRWROWNO();    //排号
-//                String tieId = preStowageData.getVTRTIERNO();   //层号
-//                String vp = bayId + rowId + tieId;
-//                if("L".equals(preStowageData.getLDULD())) {
-//                    if(!preStowageDataMap.containsKey(vp)) {
-//                        preStowageDataMap.put(vp, preStowageData);
-//                    }
-//                }
-//            }
-//            ImportData.preStowageDataMap = preStowageDataMap;
 
             String stowResult = autoStowStr;
             String[] str = stowResult.split("#");
