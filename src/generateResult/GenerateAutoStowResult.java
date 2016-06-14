@@ -80,21 +80,19 @@ public class GenerateAutoStowResult {
         try {
             Long voyId = containerInfoList.get(0).getIYCVOYID().longValue();
             //根据预配图得到船箱位查询的Map,由于一个船箱位，可能是先卸箱子，然后再装箱子，所以可能一个位子对应两个箱子
-            Map<String, List<PreStowageData>> preStowageDataMap = new HashMap<>();
-            for(PreStowageData preStowageData : preStowageDataList) {
-                String bayId = preStowageData.getVBYBAYID();    //倍号
-                String rowId = preStowageData.getVRWROWNO();    //排号
-                String tieId = preStowageData.getVTRTIERNO();   //层号
-                String vp = bayId + rowId + tieId;
-                if(!preStowageDataMap.containsKey(vp)) {
-                    List<PreStowageData> preStowageDatas = new ArrayList<>();
-                    preStowageDatas.add(preStowageData);
-                    preStowageDataMap.put(vp, preStowageDatas);
-                } else {
-                    preStowageDataMap.get(vp).add(preStowageData);
-                }
-            }
-            ImportData.preStowageDataMap = preStowageDataMap;
+//            Map<String, PreStowageData> preStowageDataMap = new HashMap<>();
+//            for(PreStowageData preStowageData : preStowageDataList) {
+//                String bayId = preStowageData.getVBYBAYID();    //倍号
+//                String rowId = preStowageData.getVRWROWNO();    //排号
+//                String tieId = preStowageData.getVTRTIERNO();   //层号
+//                String vp = bayId + rowId + tieId;
+//                if("L".equals(preStowageData.getLDULD())) {
+//                    if(!preStowageDataMap.containsKey(vp)) {
+//                        preStowageDataMap.put(vp, preStowageData);
+//                    }
+//                }
+//            }
+//            ImportData.preStowageDataMap = preStowageDataMap;
 
             String stowResult = autoStowStr;
             String[] str = stowResult.split("#");
@@ -106,35 +104,28 @@ public class GenerateAutoStowResult {
                 String wz = weiZi[1] + "" + weiZi[3] + "" + weiZi[2];//key,船上的位置：倍排层
                 AutoStowResultInfo autoStowResultInfo = new AutoStowResultInfo();
                 autoStowResultInfo.setVoyId(voyId);
-                List<PreStowageData> preStowageDataList1 = preStowageDataMap.get(wz);
-                if(preStowageDataList1 != null) {
-                    for(PreStowageData preStowageData : preStowageDataList1) {
-                        if("L".equals(preStowageData.getLDULD())) {
-                            autoStowResultInfo.setVesselPosition(wz);
-                            String[] value = new String[3];//value,0放箱区位置，1放箱号，2放尺寸
-                            if (!cxw.startsWith(" unStowed")) {
-                                String[] cangxiangwei = cxw.trim().split("%");
-                                value[0] = cangxiangwei[0] + "" + cangxiangwei[1] + "" + cangxiangwei[2] + "" + cangxiangwei[3];
-                                value[1] = xiangHao;
-                                autoStowResultInfo.setUnStowedReason("stowed ok");
-                            } else {
-                                value[0] = "?";
-                                value[1] = "?";
-                                autoStowResultInfo.setUnStowedReason(cxw);
-                            }
-                            autoStowResultInfo.setAreaPosition(value[0].trim());
-                            autoStowResultInfo.setUnitID(value[1].trim());
-                            if (Integer.valueOf(weiZi[1]) % 2 != 0) {//倍为基数
-                                value[2] = "20";
-                            } else {
-                                value[2] = "40";
-                            }
-                            autoStowResultInfo.setSize(value[2]);
-                            autoStowResultInfoList.add(autoStowResultInfo);
-                            stringMap.put(wz, value);
-                        }
-                    }
+                autoStowResultInfo.setVesselPosition(wz);
+                String[] value = new String[3];//value,0放箱区位置，1放箱号，2放尺寸
+                if (!cxw.startsWith(" unStowed")) {
+                    String[] cangxiangwei = cxw.trim().split("%");
+                    value[0] = cangxiangwei[0] + "" + cangxiangwei[1] + "" + cangxiangwei[2] + "" + cangxiangwei[3];
+                    value[1] = xiangHao;
+                    autoStowResultInfo.setUnStowedReason("stowed ok");
+                } else {
+                    value[0] = "?";
+                    value[1] = "?";
+                    autoStowResultInfo.setUnStowedReason(cxw);
                 }
+                autoStowResultInfo.setAreaPosition(value[0].trim());
+                autoStowResultInfo.setUnitID(value[1].trim());
+                if (Integer.valueOf(weiZi[1]) % 2 != 0) {//倍为基数
+                    value[2] = "20";
+                } else {
+                    value[2] = "40";
+                }
+                autoStowResultInfo.setSize(value[2]);
+                autoStowResultInfoList.add(autoStowResultInfo);
+                stringMap.put(wz, value);
             }
         } catch (Exception e) {
             e.printStackTrace();
