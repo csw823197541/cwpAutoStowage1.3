@@ -56,7 +56,7 @@ public class ContainerImageFrame extends JFrame{
             if( rowData[0] == bayID){
 
                 //奇数倍
-                String vesselLoc = vesselStructureInfo.getVHTID() +"."+ vesselStructureInfo.getVBYBAYID() + "."+vesselStructureInfo.getVTRTIERNO() +"."+ vesselStructureInfo.getVRWROWNO();
+                String vesselLoc =vesselStructureInfo.getVBYBAYID()+ vesselStructureInfo.getVRWROWNO() + vesselStructureInfo.getVTRTIERNO();
                 resultInBay.put(vesselStructureInfo.getVTRTIERNO()+"."+vesselStructureInfo.getVRWROWNO(),autoStowResult.get(vesselLoc));//存储配载结果
 
                 // 偶数倍
@@ -67,7 +67,7 @@ public class ContainerImageFrame extends JFrame{
                 }else if(rowData[0]%4==3){
                      bayPlusOne = rowData[0]-1;
                 }
-                String vesselLocInEvenBay = vesselStructureInfo.getVHTID() +"."+ String.format("%02d",bayPlusOne) + "."+vesselStructureInfo.getVTRTIERNO() +"."+ vesselStructureInfo.getVRWROWNO();
+                String vesselLocInEvenBay = String.format("%02d",bayPlusOne) + vesselStructureInfo.getVRWROWNO()+vesselStructureInfo.getVTRTIERNO();
                 if(autoStowResult.containsKey(vesselLocInEvenBay)){
                     resultInBay.put(vesselStructureInfo.getVTRTIERNO()+"."+vesselStructureInfo.getVRWROWNO(),autoStowResult.get(vesselLocInEvenBay));//将偶数倍大箱子的配载结果记录显示
                 }
