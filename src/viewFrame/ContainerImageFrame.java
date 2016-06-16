@@ -61,7 +61,7 @@ public class ContainerImageFrame extends JFrame{
 
                 // 偶数倍
                 int bayPlusOne = 0;
-                //这里默认只有13是2倍，57是6倍这种情况。不存在35是4倍这种情况
+                //这里默认只有13是2倍，57是6倍这种情况。不存在 35 是4倍这种情况
                 if(rowData[0]%4==1){
                      bayPlusOne = rowData[0]+1;
                 }else if(rowData[0]%4==3){
