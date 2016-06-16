@@ -3,15 +3,17 @@ package generateResult;
 import importDataInfo.*;
 import importDataProcess.ImportData;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by leko on 2016/1/22.
  */
 public class GenerateMoveInfoResult {
+
+    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static List<MoveInfo> getMoveInfoResult(List<VoyageInfo> voyageInfoList, List<PreStowageData> preStowageDataList, List<CwpResultMoveInfo> cwpResultMoveInfoList, List<AutoStowResultInfo> autoStowResultInfoList){
         List<MoveInfo> moveInfoList = new ArrayList<>();
@@ -53,11 +55,16 @@ public class GenerateMoveInfoResult {
             //调用排序算法，按开始时间排序
             valueList = sortByStartTime(valueList);
             int moveID = 0;
-            Long lastStartTime = -1L;
+            Date lastStartTime = null;
+            try {
+                lastStartTime = sdf.parse("1979-01-01 00:00:00");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             for(int i = 0; i < valueList.size(); i++) {
                 CwpResultMoveInfo cwpResultMoveInfo = valueList.get(i);
-                Long startTime = cwpResultMoveInfo.getWorkingStartTime().getTime();
-                if(startTime != lastStartTime) {
+                Date startTime = cwpResultMoveInfo.getWorkingStartTime();
+                if(startTime.compareTo(lastStartTime) != 0) {
                     moveID += 1;
                 }
                 String craneID = cwpResultMoveInfo.getCRANEID();    //桥机号
@@ -100,17 +107,16 @@ public class GenerateMoveInfoResult {
 
         for(int i = 0; i < valueList.size(); i++) {
             CwpResultMoveInfo current = valueList.get(i);
-            Long currentLongTime = current.getWorkingStartTime().getTime();
+            Date currentTime = current.getWorkingStartTime();
             for(int j = i; j < valueList.size(); j++) {
                 CwpResultMoveInfo min = valueList.get(j);
-                Long minLongTime = min.getWorkingStartTime().getTime();
-                if(currentLongTime > minLongTime) {
+                Date minTime = min.getWorkingStartTime();
+                if(minTime.compareTo(currentTime) < 0) {
                    current = min;
                 }
             }
             returnList.add(current);
         }
-
         return returnList;
     }
 }

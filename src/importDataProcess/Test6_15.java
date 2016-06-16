@@ -82,6 +82,13 @@ public class Test6_15 {
 
         //测试自动配载算法
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+
+        for(AutoStowResultInfo autoStowResultInfo : autoStowInfoList) {
+            if(autoStowResultInfo.getUnitID().equals("?")) {
+                System.out.println(autoStowResultInfo.getVesselPosition());
+            }
+        }
+
         List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
