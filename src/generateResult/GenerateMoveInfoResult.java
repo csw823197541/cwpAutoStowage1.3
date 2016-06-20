@@ -1,12 +1,10 @@
 package generateResult;
 
 import importDataInfo.*;
-import importDataProcess.ImportData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.zip.DataFormatException;
 
 /**
  * Created by leko on 2016/1/22.
@@ -26,15 +24,20 @@ public class GenerateMoveInfoResult {
         Long voyId = voyageInfoList.get(0).getVOTVOYID().longValue();
 
         //将预配信息进行处理，根据船箱位得到卸船的箱号信息
-        Map<String, PreStowageData> preStowageDataMap = new HashMap<>();
+        Map<String, PreStowageData> preStowageDataMapD = new HashMap<>();
+        Map<String, PreStowageData> preStowageDataMapL = new HashMap<>();
         for(PreStowageData preStowageData : preStowageDataList) {
             String bayId = preStowageData.getVBYBAYID();    //倍号
             String rowId = preStowageData.getVRWROWNO();    //排号
             String tieId = preStowageData.getVTRTIERNO();   //层号
             String vp = bayId + rowId + tieId;
             if("D".equals(preStowageData.getLDULD())) {
-                if(!preStowageDataMap.containsKey(vp)) {
-                    preStowageDataMap.put(vp, preStowageData);
+                if(!preStowageDataMapD.containsKey(vp)) {
+                    preStowageDataMapD.put(vp, preStowageData);
+                }
+            } else if("L".equals(preStowageData.getLDULD())) {
+                if(!preStowageDataMapL.containsKey(vp)) {
+                    preStowageDataMapL.put(vp, preStowageData);
                 }
             }
         }
@@ -57,7 +60,7 @@ public class GenerateMoveInfoResult {
             int moveID = 0;
             Date lastStartTime = null;
             try {
-                lastStartTime = sdf.parse("1979-01-01 00:00:00");
+                lastStartTime = sdf.parse("1990-09-10 10:00:00");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -89,9 +92,15 @@ public class GenerateMoveInfoResult {
                     moveInfo.setUnitId(stowResult.getUnitID());
                     moveInfo.setUnitLength(stowResult.getSize());
                 } else {    //预配位上卸船的箱号
-                    PreStowageData preStowageData = preStowageDataMap.get(vesselP);
-                    moveInfo.setUnitId(preStowageData.getContainerNum());
-                    moveInfo.setUnitLength(preStowageData.getSIZE());
+                    if("L".equals(LD)) {
+                        PreStowageData preStowageData = preStowageDataMapL.get(vesselP);
+                        moveInfo.setUnitId(preStowageData.getContainerNum());
+                        moveInfo.setUnitLength(preStowageData.getSIZE());
+                    } else {
+                        PreStowageData preStowageData = preStowageDataMapD.get(vesselP);
+                        moveInfo.setUnitId(preStowageData.getContainerNum());
+                        moveInfo.setUnitLength(preStowageData.getSIZE());
+                    }
                 }
                 moveInfo.setVoyId(voyId);
                 moveInfoList.add(moveInfo);
@@ -103,20 +112,13 @@ public class GenerateMoveInfoResult {
 
     private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {
 
-        List<CwpResultMoveInfo> returnList = new ArrayList<>();
-
-        for(int i = 0; i < valueList.size(); i++) {
-            CwpResultMoveInfo current = valueList.get(i);
-            Date currentTime = current.getWorkingStartTime();
-            for(int j = i; j < valueList.size(); j++) {
-                CwpResultMoveInfo min = valueList.get(j);
-                Date minTime = min.getWorkingStartTime();
-                if(minTime.compareTo(currentTime) < 0) {
-                   current = min;
-                }
+        Collections.sort(valueList, new Comparator<CwpResultMoveInfo>() {
+            @Override
+            public int compare(CwpResultMoveInfo o1, CwpResultMoveInfo o2) {
+                return o1.getWorkingStartTime().compareTo(o2.getWorkingStartTime());
             }
-            returnList.add(current);
-        }
-        return returnList;
+        });
+
+        return valueList;
     }
 }
