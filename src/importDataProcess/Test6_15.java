@@ -6,6 +6,7 @@ import utils.FileUtil;
 import viewFrame.*;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class Test6_15 {
 
         String cr = FileUtil.readFileToString(new File("6.15data/craneinfo.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File("6.15data/containers.txt")).toString();
+        String co = FileUtil.readFileToString(new File("6.15data/containers1.txt")).toString();
 
         String ca = FileUtil.readFileToString(new File("6.15data/area.txt")).toString();
 
@@ -79,6 +80,23 @@ public class Test6_15 {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList);
+
+        //将结果写到txt文件里，然后好转成excel
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String re = "";
+        String temp = "";
+        for(CwpResultMoveInfo cwpResultMoveInfo : cwpResultInfoToMoveList) {
+            temp = cwpResultMoveInfo.getCRANEID() +","+ cwpResultMoveInfo.getHATCHID() +","+ cwpResultMoveInfo.getHATCHBWID() +","+
+                    cwpResultMoveInfo.getCranesPosition() +","+ cwpResultMoveInfo.getMoveOrder() +","+ cwpResultMoveInfo.getVESSELID() +","+
+                    cwpResultMoveInfo.getMOVETYPE() +","+ cwpResultMoveInfo.getLDULD() +","+ sdf.format(cwpResultMoveInfo.getWorkingStartTime()) +","+
+                    sdf.format(cwpResultMoveInfo.getWorkingEndTime()) +"\n";
+            re += temp;
+        }
+        try {
+            FileUtil.writeToFile("6.15data/cwp.txt", re);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //测试自动配载算法
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
