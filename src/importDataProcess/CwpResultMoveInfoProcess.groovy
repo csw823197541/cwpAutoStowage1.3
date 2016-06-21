@@ -37,6 +37,9 @@ class CwpResultMoveInfoProcess {
                 cwpResultMoveInfo.workingEndTime = sdf.parse(it.WORKINGENDTIME)
                 cwpResultMoveInfo.workingStartTime = sdf.parse(it.WORKINGSTARTTIME)
 
+                cwpResultMoveInfo.size = it.Size
+                cwpResultMoveInfo.vesselPosition = it.VESSELPOSITION
+
                 resultMoveInfoList.add(cwpResultMoveInfo)
             }
         }catch (Exception e) {
