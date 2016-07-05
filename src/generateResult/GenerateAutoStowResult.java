@@ -2,6 +2,7 @@ package generateResult;
 
 import autoStow.CallAutoStow;
 import importDataInfo.*;
+import importDataProcess.AutoStowInputProcess;
 import importDataProcess.ImportData;
 import importDataProcess.PreStowageInfoProcess;
 import utils.FileUtil;
@@ -23,28 +24,36 @@ public class GenerateAutoStowResult {
         //处理在场箱信息
         String containerStr = PreStowageInfoProcess.getContainerString(containerInfoList);
         containerStr = containerStr.substring(0, containerStr.length() - 1);
+//        containerStr = AutoStowInputProcess.getContainerJsonStr(containerInfoList);
 
         //处理箱区信息
         String containerAreaStr = PreStowageInfoProcess.getContainerAreaString(containerAreaInfoList);
         containerAreaStr = containerAreaStr.substring(0, containerAreaStr.length() - 1);
+//        containerAreaStr = AutoStowInputProcess.getContainerAreaJsonStr(containerAreaInfoList);
 
         //处理预配信息
         String preStowageStr = PreStowageInfoProcess.getPreStowageString(groupInfoList, preStowageDataList);
         preStowageStr = preStowageStr.substring(0, preStowageStr.length() - 1);
+        preStowageStr = AutoStowInputProcess.getPreStowageJsonStr(preStowageDataList);
 
         try {//将自动配载要用的结果写在文件里，让算法去读这个文件
             FileUtil.writeToFile("toAutoStowData/Container.txt", containerStr);
             FileUtil.writeToFile("toAutoStowData/PreStowage.txt", preStowageStr);
             FileUtil.writeToFile("toAutoStowData/ContainerArea.txt", containerAreaStr);
+//            FileUtil.writeToFile("toAutoStowJsonData/Container.txt", containerStr);
+//            FileUtil.writeToFile("toAutoStowJsonData/PreStowage.txt", preStowageStr);
+//            FileUtil.writeToFile("toAutoStowJsonData/ContainerArea.txt", containerAreaStr);
         } catch (Exception e) {
             e.printStackTrace();
         }
         //处理cwp输出信息
         String cwpResultStr = PreStowageInfoProcess.getCwpResultString(cwpResultMoveInfoList);
         cwpResultStr = cwpResultStr.substring(0, cwpResultStr.length() - 1);
+        cwpResultStr = AutoStowInputProcess.getCwpResultJsonStr(cwpResultMoveInfoList);
 
         try {//将自动配载要用的结果写在文件里
             FileUtil.writeToFile("toAutoStowData/CwpOutput.txt", cwpResultStr);
+//            FileUtil.writeToFile("toAutoStowJsonData/CwpOutput.txt", cwpResultStr);
         } catch (Exception e) {
             e.printStackTrace();
         }
