@@ -6,6 +6,8 @@ import utils.FileUtil;
 import viewFrame.*;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,14 +81,25 @@ public class Test7_11 {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList);
+        cwpResultInfoToMoveList = sortByStartTime(cwpResultInfoToMoveList); //按时间排序
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
         cwpResultMoveInfoFrame.setVisible(true);
 
         //为了测试数据，从文件中读取cwp结果
         String cwpRe = FileUtil.readFileToString(new File("7.11data/cwpRe.txt")).toString();
         List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultMoveInfoProcess.getCwpResultMoveInfoList(cwpRe);
+        cwpResultMoveInfoList = sortByStartTime(cwpResultMoveInfoList); //按时间排序
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame1 = new CwpResultMoveInfoFrame(cwpResultMoveInfoList);
         cwpResultMoveInfoFrame1.setVisible(true);
+
+//        //实配图
+//        String pr1 = FileUtil.readFileToString(new File("7.11data/perstowandstow.txt")).toString();
+//        List<PreStowageData> preStowageDataList1 = PreStowageDataProcess.getPreStowageInfo(pr1);
+//        //测试根据实配图生成预配图
+//        List<PreStowageData> resultList1 = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList1);
+//        System.out.println(resultList1.size());
+//        PreStowageDataFrame preStowageFrame21 = new PreStowageDataFrame(resultList1);
+//        preStowageFrame21.setVisible(true);
 
         //测试自动配载算法
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultMoveInfoList);
@@ -99,5 +112,17 @@ public class Test7_11 {
         VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
         vesselImageFrame.setVisible(true);
 
+    }
+
+    private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {
+
+        Collections.sort(valueList, new Comparator<CwpResultMoveInfo>() {
+            @Override
+            public int compare(CwpResultMoveInfo o1, CwpResultMoveInfo o2) {
+                return o1.getWorkingStartTime().compareTo(o2.getWorkingStartTime());
+            }
+        });
+
+        return valueList;
     }
 }
