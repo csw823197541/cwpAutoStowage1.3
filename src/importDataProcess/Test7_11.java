@@ -81,14 +81,14 @@ public class Test7_11 {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList);
-        cwpResultInfoToMoveList = sortByStartTime(cwpResultInfoToMoveList); //按时间排序
+        //cwpResultInfoToMoveList = sortByStartTime(cwpResultInfoToMoveList); //按时间排序
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
         cwpResultMoveInfoFrame.setVisible(true);
 
         //为了测试数据，从文件中读取cwp结果
         String cwpRe = FileUtil.readFileToString(new File("7.11data/cwpRe.txt")).toString();
         List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultMoveInfoProcess.getCwpResultMoveInfoList(cwpRe);
-        cwpResultMoveInfoList = sortByStartTime(cwpResultMoveInfoList); //按时间排序
+        //cwpResultMoveInfoList = sortByStartTime(cwpResultMoveInfoList); //按时间排序
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame1 = new CwpResultMoveInfoFrame(cwpResultMoveInfoList);
         cwpResultMoveInfoFrame1.setVisible(true);
 
@@ -102,9 +102,9 @@ public class Test7_11 {
 //        preStowageFrame21.setVisible(true);
 
         //测试自动配载算法
-        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultMoveInfoList);
+        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
 
-        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultMoveInfoList, autoStowInfoList);
+        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
