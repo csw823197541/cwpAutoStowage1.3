@@ -32,7 +32,7 @@ public class CwpResultFrame extends JFrame{
 //        this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);// 居中显示
         this.getContentPane().setLayout(new BorderLayout());
-        CwpResultPanel cwpResultPanel = new CwpResultPanel(cwpResultInfoList, craneInfoList, hatchInfoList);
+        CwpResultPanel1 cwpResultPanel = new CwpResultPanel1(cwpResultInfoList, craneInfoList, hatchInfoList);
         JScrollPane scrollPane = new JScrollPane(cwpResultPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
