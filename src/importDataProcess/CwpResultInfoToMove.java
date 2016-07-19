@@ -2,11 +2,9 @@ package importDataProcess;
 
 import importDataInfo.CwpResultInfo;
 import importDataInfo.CwpResultMoveInfo;
+import importDataInfo.PreStowageData;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by csw on 2016/5/27 12:28.
@@ -14,8 +12,27 @@ import java.util.Map;
  */
 public class CwpResultInfoToMove {
 
-    public static List<CwpResultMoveInfo> getCwpMoveInfoResult(List<CwpResultInfo> cwpResultInfoListIn) {
+    public static List<CwpResultMoveInfo> getCwpMoveInfoResult(List<CwpResultInfo> cwpResultInfoListIn, List<PreStowageData> preStowageDataList) {
         List<CwpResultMoveInfo> resultInfoList = new ArrayList<>();
+
+        //将预配信息进行处理，根据船箱位得到卸船的箱号信息
+        Map<String, PreStowageData> preStowageDataMapD = new HashMap<>();
+        Map<String, PreStowageData> preStowageDataMapL = new HashMap<>();
+        for(PreStowageData preStowageData : preStowageDataList) {
+            String bayId = preStowageData.getVBYBAYID();    //倍号
+            String rowId = preStowageData.getVRWROWNO();    //排号
+            String tieId = preStowageData.getVTRTIERNO();   //层号
+            String vp = bayId + rowId + tieId;
+            if("D".equals(preStowageData.getLDULD())) {
+                if(!preStowageDataMapD.containsKey(vp)) {
+                    preStowageDataMapD.put(vp, preStowageData);
+                }
+            } else if("L".equals(preStowageData.getLDULD())) {
+                if(!preStowageDataMapL.containsKey(vp)) {
+                    preStowageDataMapL.put(vp, preStowageData);
+                }
+            }
+        }
 
         //舱.作业序列.作业工艺确定具体位置
         Map<String,List<String>> moveOrderRecords = ImportData.moveOrderRecords;
@@ -34,8 +51,6 @@ public class CwpResultInfoToMove {
             String moveType = cwpResultInfo.getMOVETYPE();
             String LD = cwpResultInfo.getLDULD();
             Double cranePosition = cwpResultInfo.getCranesPosition();
-            String bayId = cwpResultInfo.getHATCHBWID();
-            String size = Integer.valueOf(bayId)%2 == 0 ? "40" : "20";
 
             int startMoveOrder = cwpResultInfo.getStartMoveID();
 
@@ -61,12 +76,23 @@ public class CwpResultInfoToMove {
                         cwpResultMoveInfo.setVESSELID(vesselId);
                         cwpResultMoveInfo.setMOVETYPE(moveType);
                         cwpResultMoveInfo.setLDULD(LD);
-                        cwpResultMoveInfo.setSize(size);
-                        cwpResultMoveInfo.setCranesPosition(cranePosition);
-                        cwpResultMoveInfo.setHATCHBWID(bayId);
 
-                        String vp = vesselPositionStr.split("\\.")[1] + "" + vesselPositionStr.split("\\.")[3] + "" + vesselPositionStr.split("\\.")[2];
+                        String[] vps = vesselPositionStr.split("\\.");
+                        String vp = vps[1] + "" + vps[3] + "" + vps[2];
                         cwpResultMoveInfo.setVesselPosition(vp);
+
+                        if("L".equals(LD)) {
+                            PreStowageData preStowageData = preStowageDataMapL.get(vp);
+                            cwpResultMoveInfo.setSize(preStowageData.getSIZE());
+                            String bayId = preStowageData.getVBYBAYID();
+                            cwpResultMoveInfo.setHATCHBWID(bayId);
+                        } else {
+                            PreStowageData preStowageData = preStowageDataMapD.get(vp);
+                            cwpResultMoveInfo.setSize(preStowageData.getSIZE());
+                            String bayId = preStowageData.getVBYBAYID();
+                            cwpResultMoveInfo.setHATCHBWID(bayId);
+                        }
+                        cwpResultMoveInfo.setCranesPosition(cranePosition);
 
                         resultInfoList.add(cwpResultMoveInfo);
                     }

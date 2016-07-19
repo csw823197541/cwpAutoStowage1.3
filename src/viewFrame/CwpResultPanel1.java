@@ -31,7 +31,7 @@ public class CwpResultPanel1 extends JPanel{
     public int height = 750;
     public int topMargin = 10;
     public int leftMargin = 50;
-    public int length = 1300;//船总长
+    public int length = 1500;//船总长
     public int hatchWidth = 50;//图中显示的舱宽度
     public int cwpBlock = 650;//cwp作业块总长度
     public int hatchLength = 25;//船舱长度
@@ -65,7 +65,7 @@ public class CwpResultPanel1 extends JPanel{
         //将每个倍的位置存起来，以便查找画作业块
         Map<Integer, Integer> bayQuery = new HashMap<>();
         int start = leftMargin;
-        for(int i = 0; i < 23; i++) {
+        for(int i = 0; i < 25; i++) {
             int X1 = start + hatchIn + 2;
             bayQuery.put((i+1)*4-3, X1);//左边小倍
             int X3 = start + hatchIn + hatchLength +2;

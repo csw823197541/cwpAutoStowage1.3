@@ -90,7 +90,8 @@ public class GenerateMoveInfoResult {
                 if(stowResult != null && "L".equals(LD)) {
                     moveInfo.setExFromPosition(stowResult.getAreaPosition());
                     moveInfo.setUnitId(stowResult.getUnitID());
-                    moveInfo.setUnitLength(stowResult.getSize());
+                    PreStowageData preStowageData = preStowageDataMapL.get(vesselP);
+                    moveInfo.setUnitLength(preStowageData.getSIZE());
                 } else {    //预配位上卸船的箱号
                     if("L".equals(LD)) {
                         PreStowageData preStowageData = preStowageDataMapL.get(vesselP);
