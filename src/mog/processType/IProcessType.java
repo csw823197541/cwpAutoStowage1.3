@@ -1,5 +1,6 @@
 package mog.processType;
 
+import mog.entity.MOSlotBlock;
 import mog.entity.MOSlotPosition;
 
 /**
@@ -7,5 +8,5 @@ import mog.entity.MOSlotPosition;
  */
 public interface IProcessType {
 
-    public boolean canDo(MOSlotPosition moSlotPosition);
+    public boolean canDo(MOSlotPosition moSlotPosition, MOSlotBlock moSlotBlock);
 }

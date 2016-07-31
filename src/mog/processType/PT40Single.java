@@ -1,7 +1,14 @@
 package mog.processType;
 
+import mog.entity.MOSlotBlock;
+import mog.entity.MOSlotPosition;
+
 /**
  * Created by liuminhang on 16/4/11.
  */
-public class PT40Single {
+public class PT40Single implements IProcessType{
+    @Override
+    public boolean canDo(MOSlotPosition moSlotPosition, MOSlotBlock moSlotBlock) {
+        return false;
+    }
 }

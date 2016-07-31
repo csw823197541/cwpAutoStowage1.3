@@ -12,10 +12,10 @@ import java.util.Map;
 public class MOSlotStack {
     private int topTierNo;
     private int bottomTierNo;
-    private Map<Integer,MOSlot> moSlotMap;
+    private Map<Integer, MOSlot> moSlotMap;//键值为层号
 
 
-    MOSlotStack(){
+    MOSlotStack() {
         topTierNo = 0;
         bottomTierNo = 1000;
         moSlotMap = new HashMap<>();
@@ -38,32 +38,35 @@ public class MOSlotStack {
     }
 
     //为空或已满
-    public boolean isEmptyOrFull(){
+    public boolean isEmptyOrFull() {
         return topTierNo < bottomTierNo;
     }
 
-    public void putMOSlot(int tierNo,MOSlot moSlot){
-        moSlotMap.put(tierNo,moSlot);
+    public void putMOSlot(int tierNo, MOSlot moSlot) {
+        moSlotMap.put(tierNo, moSlot);
     }
 
-    public MOSlot getMOSlot(int tierNo){
+    public MOSlot getMOSlot(int tierNo) {
         return moSlotMap.get(tierNo);
     }
 
     //栈顶减2
-    public void topTierNoDownBy2(){
-        setBottomTierNo(topTierNo-2);
+    public void topTierNoDownBy2() {
+        setBottomTierNo(topTierNo - 2);
     }
+
     //栈底加2
-    public void bottomTierNoUpBy2(){
-        setBottomTierNo(bottomTierNo+2);
+    public void bottomTierNoUpBy2() {
+        setBottomTierNo(bottomTierNo + 2);
     }
+
     //获取顶层
-    public MOSlot getTopMOContainer(){
+    public MOSlot getTopMOContainer() {
         return moSlotMap.get(topTierNo);
     }
+
     //获取底层
-    public MOSlot getBottomMOContainer(){
+    public MOSlot getBottomMOContainer() {
         return moSlotMap.get(bottomTierNo);
     }
 }
