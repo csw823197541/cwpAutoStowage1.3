@@ -21,14 +21,16 @@ public class PT40Dual implements IProcessType{
 
         MOContainer moContainer = moSlot.getMoContainer();
         MOSlotPosition moSlotPosition = moSlot.getMoSlotPosition();
-        if("40".equals(moContainer.size) || "45".equals(moContainer.size)) {
-            MOSlot nextMOSlot = moSlotBlock.getNextMOSlot(moSlotPosition);
-            if(nextMOSlot != null) {    //船舶结构里后面slot存在
-                if(nextMOSlot.getMoContainer() != null) {   //后面slot有箱子，如果不能满足双吊具的，就表示该slot只能单吊具
-                    MOContainer nextContainer = nextMOSlot.getMoContainer();
-                    if("40".equals(nextContainer.size) || "45".equals(nextContainer.size)) {   //后面是40尺或45尺的箱子，暂时表示可以做双吊具
-                        moSlotPositionSet.add(moSlotPosition);
-                        moSlotPositionSet.add(nextMOSlot.getMoSlotPosition());
+        if(moContainer != null && moSlotPosition != null) {
+            if(moContainer.size.startsWith("4")) {
+                MOSlot nextMOSlot = moSlotBlock.getNextMOSlot(moSlotPosition);
+                if(nextMOSlot != null) {    //船舶结构里后面slot存在
+                    if(nextMOSlot.getMoContainer() != null) {   //后面slot有箱子，如果不能满足双吊具的，就表示该slot只能单吊具
+                        MOContainer nextContainer = nextMOSlot.getMoContainer();
+                        if(nextContainer.size.startsWith("4")) {   //后面是40尺或45尺的箱子，暂时表示可以做双吊具
+                            moSlotPositionSet.add(moSlotPosition);
+                            moSlotPositionSet.add(nextMOSlot.getMoSlotPosition());
+                        }
                     }
                 }
             }

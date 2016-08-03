@@ -153,15 +153,16 @@ public class MoveOrderTest {
             MOSlotBlock moSlotBlockAD = MoveOrderPTProcess.PTChooserProcess(preStowageListAD, initMOSlotBlockAD);
             //对甲板上卸船的block调用编MoveOrder的方法
             POChooser poChooser = new POChooser();
-            Integer seq = 1;
-            poChooser.processOrderAD(moSlotBlockAD , seq);
+            poChooser.processOrderAD(moSlotBlockAD);
 
             MOSlotBlock moSlotBlockBD = MoveOrderPTProcess.PTChooserProcess(preStowageListBD, initMOSlotBlockBD);
-            poChooser.processOrderBD(moSlotBlockBD, seq);
+            poChooser.processOrderAD(moSlotBlockBD);
 
             MOSlotBlock moSlotBlockBL = MoveOrderPTProcess.PTChooserProcess(preStowageListBL, initMOSlotBlockBL);
+            poChooser.processOrderBL(moSlotBlockBL);
 
             MOSlotBlock moSlotBlockAL = MoveOrderPTProcess.PTChooserProcess(preStowageListAL, initMOSlotBlockAL);
+            poChooser.processOrderBL(moSlotBlockAL);
 
             //完成作业工艺和MoveOrder后,将数据进行保存
             for (PreStowageData preStowageData : preStowageList) {
