@@ -21,8 +21,10 @@ public class VesselBayOrderFrame extends JFrame{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         VesselBayOrderPanel panel = new VesselBayOrderPanel(preStowageDataList);
-        getContentPane().add(panel,BorderLayout.CENTER);
-        setSize(620,620);
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        setSize(900,700);
     }
 
 

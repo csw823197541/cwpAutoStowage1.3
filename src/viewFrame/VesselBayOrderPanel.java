@@ -15,9 +15,9 @@ import java.util.List;
 public class VesselBayOrderPanel extends JPanel {
     private List<PreStowageData> preStowageDataList;
     public int rect_length = 32;//边长
-    public static int start_x = 300, start_y_b = 580, start_y_a = 300;
-    public int size_width = 600;
-    public int size_height = 600;
+    public static int start_x = 400, start_y_b = 760, start_y_a = 400;
+    public int size_width = 900;
+    public int size_height = 800;
     public Font font = new Font("宋体",Font.BOLD,10);
     public Font font2 = new Font("宋体",Font.PLAIN,6);
 
@@ -27,13 +27,14 @@ public class VesselBayOrderPanel extends JPanel {
     }
 
     private void initComponents() {
+        this.setPreferredSize(new Dimension(size_width,size_height));
         setSize(size_width, size_height);
         setOpaque(true);
     }
 
     @Override
     public void paint(Graphics g) {
-        super.paintComponents(g);
+        super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
 
         //绘制船舶结构
@@ -55,9 +56,9 @@ public class VesselBayOrderPanel extends JPanel {
                 vx = start_x - (rowInt / 2 + 1) * rect_length;
             }
             if (tierInt >= 50) {
-                vy = start_y_a - ((tierInt - 80) / 2) * rect_length;
+                vy = start_y_a - ((tierInt - 75) / 2) * rect_length;
             } else {
-                vy = start_y_b - (tierInt / 2) * rect_length;
+                vy = start_y_b - (tierInt / 2 ) * rect_length;
             }
 
             g2d.drawRect(vx, vy, rect_length, rect_length);
@@ -84,7 +85,7 @@ public class VesselBayOrderPanel extends JPanel {
                     x = start_x - (rowInt / 2 + 1) * rect_length;
                 }
                 if (tierInt >= 50) {
-                    y = start_y_a - ((tierInt - 80) / 2) * rect_length;
+                    y = start_y_a - ((tierInt - 75) / 2) * rect_length;
                 } else {
                     y = start_y_b - (tierInt / 2) * rect_length;
                 }
@@ -94,11 +95,11 @@ public class VesselBayOrderPanel extends JPanel {
                 g2d.setFont(font);
                 if (bayInt % 4 == 1 || bayInt % 4 == 3) {
                     g2d.setPaint(Color.red);
-                    g2d.drawString(tag1, x, y + 8);
+                    g2d.drawString(tag1, x+10, y + 8);
                 }
                 if (bayInt % 4 == 2) {
                     g2d.setPaint(Color.BLUE);
-                    g2d.drawString(tag1, x, y + 8);
+                    g2d.drawString(tag1, x+10, y + 8);
                 }
 
 //                System.out.println("Slot:"+ rowInt + "," + tierInt +"   Draw:[" + x + "," + y + "]");

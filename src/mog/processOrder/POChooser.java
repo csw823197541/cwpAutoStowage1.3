@@ -13,7 +13,7 @@ public class POChooser {
 
     private int seq;//作业顺序
 
-    public POChooser(){
+    public POChooser() {
         this.seq = 1;
     }
 
@@ -21,10 +21,10 @@ public class POChooser {
     public boolean isAllMOSlotStackEmpty(MOSlotBlock moSlotBlock) {
         boolean result = false;
 
-        for (MOSlotPosition moSlotPosition: moSlotBlock.getSlotPositions()) {
+        for (MOSlotPosition moSlotPosition : moSlotBlock.getSlotPositions()) {
             MOSlot moSlot = moSlotBlock.getMOSlot(moSlotPosition);
             if (moSlot != null) {
-                if(moSlot.getMoveType() != null) {
+                if (moSlot.getMoveType() != null) {
                     if (moSlot.getMoveOrderSeq() == -1) {
                         result = true;
                     }
@@ -48,10 +48,12 @@ public class POChooser {
                 if (moSlot.getMoveOrderSeq() == -1) {//没有编过MoveOrder
                     MOContainer moContainer = moSlot.getMoContainer();
                     Set<MOSlotPosition> moSlotPositionSet = moSlot.getMoSlotPositionSet();
-                    if(moContainer != null && !moSlotPositionSet.isEmpty()) {
+                    if (moContainer != null && !moSlotPositionSet.isEmpty()) {
                         if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
                             result = true;
                         }
+                    } else {
+                        moSlotStack.topTierNoDownBy2();
                     }
                 }
             }
@@ -63,10 +65,12 @@ public class POChooser {
                 if (moSlot.getMoveOrderSeq() == -1) {//没有编过MoveOrder
                     MOContainer moContainer = moSlot.getMoContainer();
                     Set<MOSlotPosition> moSlotPositionSet = moSlot.getMoSlotPositionSet();
-                    if(moContainer != null && !moSlotPositionSet.isEmpty()) {
+                    if (moContainer != null && !moSlotPositionSet.isEmpty()) {
                         if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
                             result = true;
                         }
+                    } else {
+                        moSlotStack.topTierNoDownBy2();
                     }
                 }
             }
@@ -88,10 +92,12 @@ public class POChooser {
                 if (moSlot.getMoveOrderSeq() == -1) {//没有编过MoveOrder
                     MOContainer moContainer = moSlot.getMoContainer();
                     Set<MOSlotPosition> moSlotPositionSet = moSlot.getMoSlotPositionSet();
-                    if(moContainer != null && !moSlotPositionSet.isEmpty()) {
+                    if (moContainer != null && !moSlotPositionSet.isEmpty()) {
                         if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
                             result = true;
                         }
+                    } else {
+                        moSlotStack.bottomTierNoUpBy2();
                     }
                 }
             }
@@ -103,10 +109,12 @@ public class POChooser {
                 if (moSlot.getMoveOrderSeq() == -1) {//没有编过MoveOrder
                     MOContainer moContainer = moSlot.getMoContainer();
                     Set<MOSlotPosition> moSlotPositionSet = moSlot.getMoSlotPositionSet();
-                    if(moContainer != null && !moSlotPositionSet.isEmpty()) {
+                    if (moContainer != null && !moSlotPositionSet.isEmpty()) {
                         if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
                             result = true;
                         }
+                    } else {
+                        moSlotStack.bottomTierNoUpBy2();
                     }
                 }
             }
@@ -122,25 +130,27 @@ public class POChooser {
         for (int j = 0; j < moSlotBlock.getRowSeqList().size(); j++) {
             int row = moSlotBlock.getRowSeqList().get(j);
             MOSlotStack moSlotStack = bay.get(row);
-            MOSlot moSlotTop = moSlotStack.getTopMOSlot();
-            if (moSlotTop != null) {
-                if (moSlotTop.getMoveOrderSeq() == -1) {
-                    MOContainer moContainer = moSlotTop.getMoContainer();
-                    Set<MOSlotPosition> moSlotPositionSet = moSlotTop.getMoSlotPositionSet();
-                    if(moContainer != null && !moSlotPositionSet.isEmpty()) {
-                        if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
-                            //从moSlotPositionSet中先获取slot，然后编序编MoveOrder
-                            for (MOSlotPosition moSlotPosition : moSlotPositionSet) {
-                                MOSlot moSlot = moSlotBlock.getMOSlot(moSlotPosition);
-                                moSlot.setMoveOrderSeq(seq);
+            if (moSlotStack != null) {
+                MOSlot moSlotTop = moSlotStack.getTopMOSlot();
+                if (moSlotTop != null) {
+                    if (moSlotTop.getMoveOrderSeq() == -1) {
+                        MOContainer moContainer = moSlotTop.getMoContainer();
+                        Set<MOSlotPosition> moSlotPositionSet = moSlotTop.getMoSlotPositionSet();
+                        if (moContainer != null && !moSlotPositionSet.isEmpty()) {
+                            if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
+                                //从moSlotPositionSet中先获取slot，然后编序编MoveOrder
+                                for (MOSlotPosition moSlotPosition : moSlotPositionSet) {
+                                    MOSlot moSlot = moSlotBlock.getMOSlot(moSlotPosition);
+                                    moSlot.setMoveOrderSeq(seq);
+                                }
+                                seq++;
+                                //编完序后，栈顶标记下移
+                                moSlotStack.topTierNoDownBy2();
                             }
-                            seq++;
-                            //编完序后，栈顶标记下移
-                            moSlotStack.topTierNoDownBy2();
                         }
+                    } else {//已经编了序号，下移栈顶
+                        moSlotStack.topTierNoDownBy2();
                     }
-                } else {//已经编了序号，下移栈顶
-                    moSlotStack.topTierNoDownBy2();
                 }
             }
         }
@@ -155,25 +165,27 @@ public class POChooser {
         for (int j = 0; j < moSlotBlock.getRowSeqList().size(); j++) {
             int row = moSlotBlock.getRowSeqList().get(j);
             MOSlotStack moSlotStack = bay.get(row);
-            MOSlot moSlotBottom = moSlotStack.getBottomMOSlot();
-            if (moSlotBottom != null) {
-                if (moSlotBottom.getMoveOrderSeq() == -1) {
-                    MOContainer moContainer = moSlotBottom.getMoContainer();
-                    Set<MOSlotPosition> moSlotPositionSet = moSlotBottom.getMoSlotPositionSet();
-                    if(moContainer != null && !moSlotPositionSet.isEmpty()) {
-                        if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
-                            //从moSlotPositionSet中先获取slot，然后编序编MoveOrder
-                            for (MOSlotPosition moSlotPosition : moSlotPositionSet) {
-                                MOSlot moSlot = moSlotBlock.getMOSlot(moSlotPosition);
-                                moSlot.setMoveOrderSeq(seq);
+            if (moSlotStack != null) {
+                MOSlot moSlotBottom = moSlotStack.getBottomMOSlot();
+                if (moSlotBottom != null) {
+                    if (moSlotBottom.getMoveOrderSeq() == -1) {
+                        MOContainer moContainer = moSlotBottom.getMoContainer();
+                        Set<MOSlotPosition> moSlotPositionSet = moSlotBottom.getMoSlotPositionSet();
+                        if (moContainer != null && !moSlotPositionSet.isEmpty()) {
+                            if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
+                                //从moSlotPositionSet中先获取slot，然后编序编MoveOrder
+                                for (MOSlotPosition moSlotPosition : moSlotPositionSet) {
+                                    MOSlot moSlot = moSlotBlock.getMOSlot(moSlotPosition);
+                                    moSlot.setMoveOrderSeq(seq);
+                                }
+                                seq++;
+                                //编完序后，栈底标记上移
+                                moSlotStack.bottomTierNoUpBy2();
                             }
-                            seq++;
-                            //编完序后，栈底标记上移
-                            moSlotStack.bottomTierNoUpBy2();
                         }
+                    } else {//已经编了序号，栈底标记上移
+                        moSlotStack.bottomTierNoUpBy2();
                     }
-                } else {//已经编了序号，栈底标记上移
-                    moSlotStack.bottomTierNoUpBy2();
                 }
             }
         }
@@ -191,13 +203,26 @@ public class POChooser {
 
         while (isAllMOSlotStackEmpty(moSlotBlock)) {
             //对栈顶元素进行编序
-            for (int i = 0; i < workTypes.length; i++) {
+            int i = 0;
+            while (i < workTypes.length) {
                 WorkType wt = workTypes[i];
                 while (isContinueSameTPTop(wt, moSlotBlock)) {
-                    //先从01贝德开始
+                    //先从01贝开始
                     this.processD(wt, bay01, moSlotBlock);
-                    //再从03贝德开始
+                    //再从03贝开始
                     this.processD(wt, bay03, moSlotBlock);
+                }
+                boolean isCycle = false;
+                for (int j = 0; j < i; j++) {
+                    WorkType wt1 = workTypes[j];
+                    if (isContinueSameTPTop(wt1, moSlotBlock)) {
+                        isCycle = true;
+                    }
+                }
+                if(isCycle) {
+                    i = 0;
+                } else {
+                    i++;
                 }
             }
         }
@@ -218,14 +243,27 @@ public class POChooser {
         WorkType[] workTypes = new WorkType[]{new WorkType(1, "2"), new WorkType(2, "2"),
                 new WorkType(1, "4"), new WorkType(2, "4")};
 
-        while(isAllMOSlotStackEmpty(moSlotBlock)) {
-            for(int i = 0; i < workTypes.length; i++) {
+        while (isAllMOSlotStackEmpty(moSlotBlock)) {
+            int i = 0;
+            while (i < workTypes.length) {
                 WorkType wt = workTypes[i];
                 while (isContinueSameTPBottom(wt, moSlotBlock)) {
                     //先从01贝开始
                     this.processL(wt, bay01, moSlotBlock);
                     //再从03贝开始
                     this.processL(wt, bay03, moSlotBlock);
+                }
+                boolean isCycle = false;
+                for (int j = 0; j < i; j++) {
+                    WorkType wt1 = workTypes[j];
+                    if (isContinueSameTPBottom(wt1, moSlotBlock)) {
+                        isCycle = true;
+                    }
+                }
+                if (isCycle) {
+                    i = 0;
+                } else {
+                    i++;
                 }
             }
         }

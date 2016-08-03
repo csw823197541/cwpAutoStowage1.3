@@ -11,7 +11,7 @@ public class CallAutoStow {
 //        System.loadLibrary("AutoStowToJava6");
 
         String filePath = System.getProperty("user.dir") + File.separator + "lib" + File.separator;
-        System.load(filePath + "AutoStowToJava6.dll");
+        System.load(filePath + "AutoStowToJava7.dll");
     }
 
     public static native String callAutoStow(String str1, String str2, String str3, String str4);

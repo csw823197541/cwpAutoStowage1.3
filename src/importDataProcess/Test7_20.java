@@ -67,6 +67,7 @@ public class Test7_20 {
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
         List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);
@@ -81,7 +82,6 @@ public class Test7_20 {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList, preStowageDataList);
-        //cwpResultInfoToMoveList = sortByStartTime(cwpResultInfoToMoveList); //按时间排序
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
         cwpResultMoveInfoFrame.setVisible(true);
 
@@ -92,27 +92,5 @@ public class Test7_20 {
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
-        //可视化显示配载结果
-        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
-        vesselImageFrame.setVisible(true);
-
-
     }
-
-    private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {
-
-        Collections.sort(valueList, new Comparator<CwpResultMoveInfo>() {
-            @Override
-            public int compare(CwpResultMoveInfo o1, CwpResultMoveInfo o2) {
-                return o1.getWorkingStartTime().compareTo(o2.getWorkingStartTime());
-            }
-        });
-
-        return valueList;
-    }
-
-
-
-
-
 }
