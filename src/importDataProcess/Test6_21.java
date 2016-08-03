@@ -71,33 +71,33 @@ public class Test6_21 {
 
         //调用cwp算法得到结果
         List<CwpResultInfo> cwpResultInfoList = GenerateCwpResult.getCwpResult(voyageInfoList, vesselStructureInfoList, craneInfoList, resultList);
-//        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoList, craneInfoList, null);
-//        cwpResultFrame.setVisible(true);
 
         //对cwp结果进行处理，将连续作业的cwp块放到一起，以及对作业于某个舱所有的桥机进行编顺序，和某桥机作业舱的顺序
         List<CwpResultInfo> cwpResultInfoTransformList =  CwpResultInfoTransform.getTransformResult(cwpResultInfoList);
+        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoTransformList, craneInfoList, null);
+        cwpResultFrame.setVisible(true);
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList, preStowageDataList);
 //        CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
 //        cwpResultMoveInfoFrame.setVisible(true);
 
-        //为了测试数据，从文件中读取cwp结果
-        String cwpRe = FileUtil.readFileToString(new File("6.21data/cswRe(1).txt")).toString();
-        List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultMoveInfoProcess.getCwpResultMoveInfoList(cwpRe);
-        CwpResultMoveInfoFrame cwpResultMoveInfoFrame1 = new CwpResultMoveInfoFrame(cwpResultMoveInfoList);
-        cwpResultMoveInfoFrame1.setVisible(true);
-
-        //测试自动配载算法
-        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultMoveInfoList);
-
-        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultMoveInfoList, autoStowInfoList);
-        MoveFrame moveFrame = new MoveFrame(moveInfoList);
-        moveFrame.setVisible(true);
-
-        //可视化显示配载结果
-        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
-        vesselImageFrame.setVisible(true);
+//        //为了测试数据，从文件中读取cwp结果
+//        String cwpRe = FileUtil.readFileToString(new File("6.21data/cswRe(1).txt")).toString();
+//        List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultMoveInfoProcess.getCwpResultMoveInfoList(cwpRe);
+//        CwpResultMoveInfoFrame cwpResultMoveInfoFrame1 = new CwpResultMoveInfoFrame(cwpResultMoveInfoList);
+//        cwpResultMoveInfoFrame1.setVisible(true);
+//
+//        //测试自动配载算法
+//        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultMoveInfoList);
+//
+//        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultMoveInfoList, autoStowInfoList);
+//        MoveFrame moveFrame = new MoveFrame(moveInfoList);
+//        moveFrame.setVisible(true);
+//
+//        //可视化显示配载结果
+//        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
+//        vesselImageFrame.setVisible(true);
 
     }
 }

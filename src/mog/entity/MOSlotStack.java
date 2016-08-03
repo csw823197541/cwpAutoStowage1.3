@@ -52,21 +52,21 @@ public class MOSlotStack {
 
     //栈顶减2
     public void topTierNoDownBy2() {
-        setBottomTierNo(topTierNo - 2);
+        this.setTopTierNo(topTierNo - 2);
     }
 
     //栈底加2
     public void bottomTierNoUpBy2() {
-        setBottomTierNo(bottomTierNo + 2);
+        this.setBottomTierNo(bottomTierNo + 2);
     }
 
     //获取顶层
-    public MOSlot getTopMOContainer() {
+    public MOSlot getTopMOSlot() {
         return moSlotMap.get(topTierNo);
     }
 
     //获取底层
-    public MOSlot getBottomMOContainer() {
+    public MOSlot getBottomMOSlot() {
         return moSlotMap.get(bottomTierNo);
     }
 }

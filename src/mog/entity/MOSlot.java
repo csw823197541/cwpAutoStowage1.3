@@ -15,9 +15,10 @@ public class MOSlot {
     private MOSlotPosition moSlotPosition;
     private MOContainer moContainer;
     private Set<MOSlotPosition> moSlotPositionSet;
-    private int moveOrderSeq;
-    private String moveType;
+    private int moveOrderSeq;   //作业序列
+    private String moveType;    //作业工艺
 
+    public MOSlot(){}
 
     public MOSlot(MOSlotPosition moSlotPosition) {
         this.moSlotPosition = moSlotPosition;

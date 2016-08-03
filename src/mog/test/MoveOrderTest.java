@@ -2,14 +2,12 @@ package mog.test;
 
 import generateResult.GenerateBayPositionQuery;
 import generateResult.GenerateGroupResult;
-import generateResult.GeneratePreStowageFromKnowStowage6;
 import importDataInfo.*;
 import importDataProcess.*;
-import mog.entity.MOContainer;
 import mog.entity.MOSlot;
 import mog.entity.MOSlotBlock;
 import mog.entity.MOSlotPosition;
-import mog.processType.PTChooser;
+import mog.processOrder.POChooser;
 import utils.FileUtil;
 import viewFrame.*;
 
@@ -25,24 +23,24 @@ public class MoveOrderTest {
     public static void main(String[] args) {
         String vo = FileUtil.readFileToString(new File("7.20data/Cwpvoyage.txt")).toString();
 
-        String sh = FileUtil.readFileToString(new File("7.20data/vslstr.txt")).toString();
+        String sh = FileUtil.readFileToString(new File("6.21data/vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File("7.20data/crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File("6.21data/crane.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File("7.20data/containers.txt")).toString();
+        String co = FileUtil.readFileToString(new File("6.21data/containers.txt")).toString();
 
-        String ca = FileUtil.readFileToString(new File("7.20data/area.txt")).toString();
+        String ca = FileUtil.readFileToString(new File("6.21data/area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
-        VoyageFrame voyageFrame = new VoyageFrame(voyageInfoList);
-        voyageFrame.setVisible(true);
+//        VoyageFrame voyageFrame = new VoyageFrame(voyageInfoList);
+//        voyageFrame.setVisible(true);
 
         //船舶结构
         List<VesselStructureInfo> vesselStructureInfoList = VesselStructureInfoProcess.getVesselStructureInfo(sh);
         ImportData.vesselStructureInfoList = vesselStructureInfoList;
-        VesselStructureFrame vesselStructureFrame = new VesselStructureFrame(vesselStructureInfoList);
-        vesselStructureFrame.setVisible(true);
+//        VesselStructureFrame vesselStructureFrame = new VesselStructureFrame(vesselStructureInfoList);
+//        vesselStructureFrame.setVisible(true);
 
         //测试产生查询倍位绝对坐标的方法
         Map<String, Double> bayPositionMap = GenerateBayPositionQuery.getBayPositionMap(voyageInfoList, vesselStructureInfoList);
@@ -50,28 +48,29 @@ public class MoveOrderTest {
 
 //        //桥机
         List<CraneInfo> craneInfoList = CraneInfoProcess.getCraneInfo(cr);
-        CraneFrame craneFrame = new CraneFrame(craneInfoList);
-        craneFrame.setVisible(true);
+//        CraneFrame craneFrame = new CraneFrame(craneInfoList);
+//        craneFrame.setVisible(true);
 
 //        //在场箱
         List<ContainerInfo> containerInfoList = ContainerInfoProcess.getContainerInfo(co);
-        ContainerFrame containerFrame = new ContainerFrame(containerInfoList);
-        containerFrame.setVisible(true);
+//        ContainerFrame containerFrame = new ContainerFrame(containerInfoList);
+//        containerFrame.setVisible(true);
 
 //        //箱区
         List<ContainerAreaInfo> containerAreaInfoList = ContainerAreaInfoProcess.getContainerAreaInfo(ca);
-        ContainerAreaFrame containerAreaFrame = new ContainerAreaFrame(containerAreaInfoList);
-        containerAreaFrame.setVisible(true);
+//        ContainerAreaFrame containerAreaFrame = new ContainerAreaFrame(containerAreaInfoList);
+//        containerAreaFrame.setVisible(true);
 
 //        //属性组
         List<GroupInfo> groupInfoList = GenerateGroupResult.getGroupResult(containerInfoList);
-        GroupFrame groupFrame = new GroupFrame( groupInfoList);
-        groupFrame.setVisible(true);
+//        GroupFrame groupFrame = new GroupFrame( groupInfoList);
+//        groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File("7.20data/cwpperstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File("6.21data/cwpperstowage.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
-
+//        PreStowageDataFrame preStowageFrame = new PreStowageDataFrame(preStowageDataList);
+//        preStowageFrame.setVisible(true);
 //        //去掉过境的箱子
 //        List<PreStowageData> preStowageDataListNew = new ArrayList<>();
 //        for(PreStowageData preStowageData : preStowageDataList) {
@@ -110,47 +109,91 @@ public class MoveOrderTest {
             stringListMap2.put(str, dataList2);
         }
 
-//        for(String str : VHTIDs) {//逐舱遍历
-            List<PreStowageData> preStowageList = stringListMap1.get("40066");
-            List<VesselStructureInfo> vesselStructureList = stringListMap2.get("40066");
+        List<PreStowageData> preStowageDataList1 = new ArrayList<>();
+
+        for(String str : VHTIDs) {//逐舱遍历
+//            String str = "40066";
+            List<PreStowageData> preStowageList = stringListMap1.get(str);
+
+            //按装卸船、甲板上下分开
+            List<PreStowageData> preStowageListAD = new ArrayList<>();
+            List<PreStowageData> preStowageListBD = new ArrayList<>();
+            List<PreStowageData> preStowageListAL = new ArrayList<>();
+            List<PreStowageData> preStowageListBL = new ArrayList<>();
+            for (PreStowageData preStowageData : preStowageList) {
+                if("L".equals(preStowageData.getLDULD()) && 50 < Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    preStowageListAL.add(preStowageData);
+                }
+                if("L".equals(preStowageData.getLDULD()) && 50 > Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    preStowageListBL.add(preStowageData);
+                }
+                if("D".equals(preStowageData.getLDULD()) && 50 < Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    preStowageListAD.add(preStowageData);
+                }
+                if("D".equals(preStowageData.getLDULD()) && 50 > Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    preStowageListBD.add(preStowageData);
+                }
+            }
 
             //根据船舶结构初始化block
+            List<VesselStructureInfo> vesselStructureList = stringListMap2.get(str);
             List<MOSlotPosition> moSlotPositionList = new ArrayList<>();
             for(VesselStructureInfo vesselStructureInfo : vesselStructureList) {
                 int bayInt = Integer.valueOf(vesselStructureInfo.getVBYBAYID());
                 int rowInt = Integer.valueOf(vesselStructureInfo.getVRWROWNO());
                 int tierInt = Integer.valueOf(vesselStructureInfo.getVTRTIERNO());
-                String poss = bayInt + "." + rowInt + "." + tierInt;
                 moSlotPositionList.add(new MOSlotPosition(bayInt, rowInt, tierInt));
             }
-            MOSlotBlock moSlotBlock = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
+            MOSlotBlock initMOSlotBlockAD = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
+            MOSlotBlock initMOSlotBlockBD = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
+            MOSlotBlock initMOSlotBlockBL = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
+            MOSlotBlock initMOSlotBlockAL = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
 
-            //将预配的数据初始化到block里面去
-            for(PreStowageData preStowageData : preStowageList) {
+            //对甲板上卸船的block调用生成作业工艺的方法
+            MOSlotBlock moSlotBlockAD = MoveOrderPTProcess.PTChooserProcess(preStowageListAD, initMOSlotBlockAD);
+            //对甲板上卸船的block调用编MoveOrder的方法
+            POChooser poChooser = new POChooser();
+            Integer seq = 1;
+            poChooser.processOrderAD(moSlotBlockAD , seq);
+
+            MOSlotBlock moSlotBlockBD = MoveOrderPTProcess.PTChooserProcess(preStowageListBD, initMOSlotBlockBD);
+            poChooser.processOrderBD(moSlotBlockBD, seq);
+
+            MOSlotBlock moSlotBlockBL = MoveOrderPTProcess.PTChooserProcess(preStowageListBL, initMOSlotBlockBL);
+
+            MOSlotBlock moSlotBlockAL = MoveOrderPTProcess.PTChooserProcess(preStowageListAL, initMOSlotBlockAL);
+
+            //完成作业工艺和MoveOrder后,将数据进行保存
+            for (PreStowageData preStowageData : preStowageList) {
                 int bayInt = Integer.valueOf(preStowageData.getVBYBAYID());
                 int rowInt = Integer.valueOf(preStowageData.getVRWROWNO());
                 int tierInt = Integer.valueOf(preStowageData.getVTRTIERNO());
                 MOSlotPosition moSlotPosition = new MOSlotPosition(bayInt, rowInt, tierInt);
-                String containerNo = preStowageData.getContainerNum();
-                String type = preStowageData.getCTYPECD();
-                int weightKg = 0;
-                String eof = null;
-                String size = preStowageData.getSIZE();
-                MOContainer moContainer = new MOContainer(containerNo, type, weightKg, eof, size);
-                MOSlot moSlot = new MOSlot(moSlotPosition);
-                moSlotBlock.putMOSlot(moSlotPosition, moSlot);
-                moSlotBlock.putMOContainer(moSlotPosition, moContainer);
+                if("L".equals(preStowageData.getLDULD()) && 50 < Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    MOSlot moSlot = moSlotBlockAL.getMOSlot(moSlotPosition);
+                    preStowageData.setWORKFLOW(moSlot.getMoveType());
+                    preStowageData.setMOVEORDER(moSlot.getMoveOrderSeq());
+                }
+                if("L".equals(preStowageData.getLDULD()) && 50 > Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+                    preStowageData.setWORKFLOW(moSlot.getMoveType());
+                    preStowageData.setMOVEORDER(moSlot.getMoveOrderSeq());
+                }
+                if("D".equals(preStowageData.getLDULD()) && 50 < Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    MOSlot moSlot = moSlotBlockAD.getMOSlot(moSlotPosition);
+                    preStowageData.setWORKFLOW(moSlot.getMoveType());
+                    preStowageData.setMOVEORDER(moSlot.getMoveOrderSeq());
+                }
+                if("D".equals(preStowageData.getLDULD()) && 50 > Integer.valueOf(preStowageData.getVTRTIERNO())) {
+                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
+                    preStowageData.setWORKFLOW(moSlot.getMoveType());
+                    preStowageData.setMOVEORDER(moSlot.getMoveOrderSeq());
+                }
             }
+            preStowageDataList1.addAll(preStowageList);
+        }
 
-            //开始调用block生成作业工艺的方法
-            PTChooser ptChooser = new PTChooser();
-            ptChooser.setMoSlotBlock(moSlotBlock);
-            moSlotBlock = ptChooser.choosePT();
-
-//        }
-
-
-//        PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
-//        preStowageFrame2.setVisible(true);
+        PreStowageDataFrame preStowageFrame1 = new PreStowageDataFrame(preStowageDataList1);
+        preStowageFrame1.setVisible(true);
     }
 }
