@@ -33,24 +33,24 @@ class GenerateCwpResult {
         String craneJsonStr = CraneInfoProcess.getCraneInfoJsonStr(craneInfoList)
         String hatchJsonStr = HatchInfoProcess.getHatchInfoJsonStr(hatchInfoList)
         String moveJsonStr = WorkMoveInfoProcess.getWorkMoveInfoJsonStr(workMoveInfoList)
-//        try{
-//            FileUtil.writeToFile("toCwpData/hatch.txt", hatchJsonStr)
-//            FileUtil.writeToFile("toCwpData/crane.txt", craneJsonStr)
-//            FileUtil.writeToFile("toCwpData/moves.txt", moveJsonStr)
-//        } catch (Exception e) {
-//            e.printStackTrace()
-//        }
+        try{
+            FileUtil.writeToFile("toCwpData/hatch.txt", hatchJsonStr)
+            FileUtil.writeToFile("toCwpData/crane.txt", craneJsonStr)
+            FileUtil.writeToFile("toCwpData/moves.txt", moveJsonStr)
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
         //调用cwp算法
         if(craneJsonStr != null && hatchJsonStr != null && moveJsonStr != null) {
             String cwpResultStr = null
             cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, "4", "1", "0.2") //后三个参数分别代表桥机数量、moveCount数量模值、效率缩小
             System.out.println("cwp算法返回的json字符串:" + cwpResultStr);
             if(cwpResultStr != null){
-//                try{
-//                    FileUtil.writeToFile("toCwpData/cwpResult.txt", cwpResultStr)
-//                }catch (Exception e) {
-//                    e.printStackTrace()
-//                }
+                try{
+                    FileUtil.writeToFile("toCwpData/cwpResult.txt", cwpResultStr)
+                }catch (Exception e) {
+                    e.printStackTrace()
+                }
                 cwpResultInfoList = CwpResultInfoProcess.getCwpResultInfo(cwpResultStr, voyageInfoList)
             } else {
                 System.out.println("cwp算法没有返回结果！")

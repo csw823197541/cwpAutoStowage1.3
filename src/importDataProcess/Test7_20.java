@@ -66,8 +66,8 @@ public class Test7_20 {
         String pr = FileUtil.readFileToString(new File("7.20data/cwpperstowage.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
-        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
-//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);

@@ -45,7 +45,7 @@ class CwpResultInfoProcess {
                 cwpResultInfo.MOVETYPE = cwpResult.MOVETYPE
                 cwpResultInfo.LDULD = cwpResult.mLD
 
-                cwpResultInfo.workingStartTime = new Date(stLong + cwpResult.REALWORKINGSTARTTIME*1000)
+                cwpResultInfo.workingStartTime = new Date(stLong + cwpResult.REALWORKINGSTARTTIME.intValue()*1000)
                 cwpResultInfo.workingEndTime = new Date(stLong + cwpResult.WORKINGENDTIME*1000)
                 cwpResultInfo.craneWorkStartTime = new Date(stLong + cwpResult.WORKINGSTARTTIME*1000)
                 cwpResultInfoList.add(cwpResultInfo)
