@@ -17,15 +17,17 @@ import java.util.Map;
 public class Test7_20 {
     public static void main(String[] args) {
 
-        String vo = FileUtil.readFileToString(new File("7.20data/Cwpvoyage.txt")).toString();
+        String filePath = "6.21data/";
 
-        String sh = FileUtil.readFileToString(new File("7.20data/vslstr.txt")).toString();
+        String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File("7.20data/crane.txt")).toString();
+        String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File("7.20data/containers.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
 
-        String ca = FileUtil.readFileToString(new File("7.20data/area.txt")).toString();
+        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
+
+        String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
@@ -63,11 +65,11 @@ public class Test7_20 {
         groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File("7.20data/cwpperstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
-//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
-        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);

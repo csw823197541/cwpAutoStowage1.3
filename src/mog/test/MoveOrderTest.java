@@ -21,15 +21,16 @@ import java.util.*;
 public class MoveOrderTest {
 
     public static void main(String[] args) {
-        String vo = FileUtil.readFileToString(new File("7.20data/Cwpvoyage.txt")).toString();
+        String filePath = "6.21data/";
+        String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
-        String sh = FileUtil.readFileToString(new File("7.20data/vslstr.txt")).toString();
+        String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File("7.20data/crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File("7.20data/containers.txt")).toString();
+        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 
-        String ca = FileUtil.readFileToString(new File("7.20data/area.txt")).toString();
+        String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
@@ -67,7 +68,7 @@ public class MoveOrderTest {
 //        groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File("7.20data/cwpperstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
 //        PreStowageDataFrame preStowageFrame = new PreStowageDataFrame(preStowageDataList);
 //        preStowageFrame.setVisible(true);
