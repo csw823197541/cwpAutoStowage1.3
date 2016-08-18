@@ -1,0 +1,5 @@
+101,null,null,36244,01,02,82,null,20,GP,ITVCE,L,1,1,25468,null,null
+101,null,null,36244,01,04,82,null,20,GP,ITVCE,L,2,1,25468,null,null
+null,UNLD0002012,null,36245,05,08,82,null,20,GP,CNSHA,D,1,1,25468,null,Y
+null,UNLD0002032,null,36245,05,07,82,null,20,GP,CNSHA,D,2,1,25468,null,Y
+

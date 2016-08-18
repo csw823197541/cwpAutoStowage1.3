@@ -57,7 +57,9 @@ public class GenerateAutoStowResult {
 
             System.out.println("自动配载算法返回的结果：" + autoStowStr);
             if (autoStowStr != null) {
-                autoStowResultInfoList = getAutoStowResult(autoStowStr, preStowageDataList, containerInfoList);
+                if(!"loadDataError".equals(autoStowStr)) {
+                    autoStowResultInfoList = getAutoStowResult(autoStowStr, preStowageDataList, containerInfoList);
+                }
             } else {
                 System.out.println("自动配载算法没有返回结果！");
             }

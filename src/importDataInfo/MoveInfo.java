@@ -27,6 +27,25 @@ public class MoveInfo {
     private String moveType;    //作业工艺
     private Long voyId; //航次Id，艘次
 
+    private String DSTPORT; //目的港
+    private Integer WEIGHT; //重量
+
+    public String getDSTPORT() {
+        return DSTPORT;
+    }
+
+    public void setDSTPORT(String DSTPORT) {
+        this.DSTPORT = DSTPORT;
+    }
+
+    public Integer getWEIGHT() {
+        return WEIGHT;
+    }
+
+    public void setWEIGHT(Integer WEIGHT) {
+        this.WEIGHT = WEIGHT;
+    }
+
     public Long getVoyId() {
         return voyId;
     }

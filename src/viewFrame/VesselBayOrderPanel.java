@@ -40,7 +40,7 @@ public class VesselBayOrderPanel extends JPanel {
         //绘制船舶结构
 
         g2d.setPaint(Color.gray);
-        g2d.drawLine(start_x, 0, start_x, size_height);//中心线
+//        g2d.drawLine(start_x, 0, start_x, size_height);//中心线
         g2d.drawLine(0, start_y_b, size_width, start_y_b);//舱底
         g2d.drawLine(0, start_y_a, size_width, start_y_a);//甲板
         for (int i = 0; i < ImportData.vesselStructureInfoList.size(); i++) {
@@ -56,9 +56,9 @@ public class VesselBayOrderPanel extends JPanel {
                 vx = start_x - (rowInt / 2 + 1) * rect_length;
             }
             if (tierInt >= 50) {
-                vy = start_y_a - ((tierInt - 75) / 2) * rect_length;
+                vy = start_y_a - ((tierInt - 75) / 2) * rect_length + 30;
             } else {
-                vy = start_y_b - (tierInt / 2 ) * rect_length;
+                vy = start_y_b - (tierInt / 2 ) * rect_length - 70;
             }
 
             g2d.drawRect(vx, vy, rect_length, rect_length);
@@ -85,9 +85,9 @@ public class VesselBayOrderPanel extends JPanel {
                     x = start_x - (rowInt / 2 + 1) * rect_length;
                 }
                 if (tierInt >= 50) {
-                    y = start_y_a - ((tierInt - 75) / 2) * rect_length;
+                    y = start_y_a - ((tierInt - 75) / 2) * rect_length + 30;
                 } else {
-                    y = start_y_b - (tierInt / 2) * rect_length;
+                    y = start_y_b - (tierInt / 2) * rect_length -70;
                 }
 
                 g2d.drawRect(x, y, rect_length, rect_length);
