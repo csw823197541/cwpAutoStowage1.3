@@ -1,12 +1,15 @@
 package generateResult;
 
+import groovy.json.JsonBuilder;
 import importDataInfo.PreStowageData;
 import importDataInfo.VesselStructureInfo;
+import importDataProcess.AutoStowInputProcess;
 import mog.entity.MOSlot;
 import mog.entity.MOSlotBlock;
 import mog.entity.MOSlotPosition;
 import mog.processOrder.POChooser;
 import mog.test.MoveOrderPTProcess;
+import utils.FileUtil;
 
 import java.util.*;
 

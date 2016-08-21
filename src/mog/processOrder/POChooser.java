@@ -127,6 +127,56 @@ public class POChooser {
     public MOSlotBlock processD(WorkType wt, Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock) {
 
         //按从偶数排开始遍历栈顶
+//        //取所有栈顶，选择层数最小的开始编序
+//        int tierMin = 1000;
+//        int rowStart = 1000;
+//        for (int j = 0; j < moSlotBlock.getRowSeqList().size(); j++) {
+//            int row = moSlotBlock.getRowSeqList().get(j);
+//            MOSlotStack moSlotStack = bay.get(row);
+//            if(moSlotStack != null) {
+//                MOSlot moSlotTop = moSlotStack.getTopMOSlot();
+//                if(moSlotTop != null) {
+//                    if (moSlotTop.getMoveOrderSeq() == -1) {
+//                        MOContainer moContainer = moSlotTop.getMoContainer();
+//                        Set<MOSlotPosition> moSlotPositionSet = moSlotTop.getMoSlotPositionSet();
+//                        if (moContainer != null && !moSlotPositionSet.isEmpty()) {
+//                            if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
+//                                if (moSlotTop.getMoSlotPosition().getTierInt() < tierMin) {
+//                                    tierMin = moSlotTop.getMoSlotPosition().getTierInt();
+//                                    rowStart = row;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        MOSlotStack moSlotStack = bay.get(rowStart);
+//        if (moSlotStack != null) {
+//            MOSlot moSlotTop = moSlotStack.getTopMOSlot();
+//            if (moSlotTop != null) {
+//                if (moSlotTop.getMoveOrderSeq() == -1) {
+//                    MOContainer moContainer = moSlotTop.getMoContainer();
+//                    Set<MOSlotPosition> moSlotPositionSet = moSlotTop.getMoSlotPositionSet();
+//                    if (moContainer != null && !moSlotPositionSet.isEmpty()) {
+//                        if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
+//                            //从moSlotPositionSet中先获取slot，然后编序编MoveOrder
+//                            for (MOSlotPosition moSlotPosition : moSlotPositionSet) {
+//                                MOSlot moSlot = moSlotBlock.getMOSlot(moSlotPosition);
+//                                moSlot.setMoveOrderSeq(seq);
+//                            }
+//                            seq++;
+//                            //编完序后，栈顶标记下移
+//                            moSlotStack.topTierNoDownBy2();
+//                        }
+//                    }
+//                } else {//已经编了序号，下移栈顶
+//                    moSlotStack.topTierNoDownBy2();
+//                }
+//            }
+//        }
+
+
         for (int j = 0; j < moSlotBlock.getRowSeqList().size(); j++) {
             int row = moSlotBlock.getRowSeqList().get(j);
             MOSlotStack moSlotStack = bay.get(row);

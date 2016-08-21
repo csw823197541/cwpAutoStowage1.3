@@ -13,18 +13,19 @@ import java.util.Map;
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test8_15 {
+public class Test7_20_1 {
     public static void main(String[] args) {
 
-        String filePath = "8.15data/";
+        String filePath = "7.20data/";
 
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "crane1.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
 
         String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
+//        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
 
         String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
 
@@ -65,51 +66,12 @@ public class Test8_15 {
 
         //实配图
         String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
-        List<PreStowageData> preStowageDataList1 = PreStowageDataProcess.getPreStowageInfo(pr);
+//        String pr = FileUtil.readFileToString(new File("toTempData/tempPreStowage.txt")).toString();
 
-//        List<PreStowageData> preStowageDataList1 = new ArrayList<>();
-//        int size20 = 0;
-//        int size40 = 0;
-//        for(PreStowageData preStowageData : preStowageDataList) {
-//            String group = preStowageData.getDSTPORT() + "#" + preStowageData.getSIZE() + "#" + preStowageData.getCTYPECD();
-//            if("L".equals(preStowageData.getLDULD())) {
-//                if("CNTXG#20#GP".equals(group)) {
-//                    size20++;
-//                    if(size20 > 21) {
-//                        preStowageDataList1.add(preStowageData);
-//                    }
-//                } else {
-//                    if("CNTXG#40#GP".equals(group)) {
-//                        size40++;
-//                        if(size40 > 3) {
-//                            preStowageDataList1.add(preStowageData);
-//                        }
-//                    } else {
-//                        preStowageDataList1.add(preStowageData);
-//                    }
-//                }
-//            } else {
-//                preStowageDataList1.add(preStowageData);
-//            }
-//        }
-//        int size40 = 0;
-//        for(PreStowageData preStowageData : preStowageDataList) {
-//            if("36251".equals(preStowageData.getVHTID())) {
-//                if("40".equals(preStowageData.getSIZE())) {
-//                    size40++;
-//                    if(size40 < 15) {
-//                        preStowageDataList1.add(preStowageData);
-//                    }
-//                } else {
-//                    preStowageDataList1.add(preStowageData);
-//                }
-//            }
-//        }
-
-
+        List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
-        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList1);
-//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+        List<PreStowageData> resultList = GenerateMoveOrder1.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);
@@ -123,7 +85,7 @@ public class Test8_15 {
         cwpResultFrame.setVisible(true);
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
-        List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList, preStowageDataList1);
+        List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList, preStowageDataList);
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
         cwpResultMoveInfoFrame.setVisible(true);
 
@@ -133,6 +95,26 @@ public class Test8_15 {
         List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
+
+        //删掉已配的箱子
+        List<ContainerInfo> containerInfoList1 = new ArrayList<>();
+        for (ContainerInfo containerInfo : containerInfoList) {
+            boolean flag = false;
+            for (AutoStowResultInfo autoStowResultInfo : autoStowInfoList) {
+                if(containerInfo.getIYCCNTRNO().equals(autoStowResultInfo.getUnitID())) {
+                    flag = true;
+                }
+            }
+            if(!flag) {
+                containerInfoList1.add(containerInfo);
+            }
+        }
+        String str = AutoStowInputProcess.getContainerJsonStr(containerInfoList1);
+        try{
+            FileUtil.writeToFile("toTempData/tempContainer.txt", str);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
