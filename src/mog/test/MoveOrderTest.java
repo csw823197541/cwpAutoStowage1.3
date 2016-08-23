@@ -8,6 +8,8 @@ import mog.entity.MOSlot;
 import mog.entity.MOSlotBlock;
 import mog.entity.MOSlotPosition;
 import mog.processOrder.POChooser;
+import mog.processOrder.POChooser1;
+import mog.processOrder.POChooser2;
 import utils.FileUtil;
 import viewFrame.*;
 
@@ -113,6 +115,7 @@ public class MoveOrderTest {
         List<PreStowageData> preStowageDataList1 = new ArrayList<>();
 
         for(String str : VHTIDs) {//逐舱遍历
+//            String str = "36249";
             List<PreStowageData> preStowageList = stringListMap1.get(str);
 
             //按装卸船、甲板上下分开
@@ -152,7 +155,7 @@ public class MoveOrderTest {
             //对甲板上卸船的block调用生成作业工艺的方法
             MOSlotBlock moSlotBlockAD = MoveOrderPTProcess.PTChooserProcess(preStowageListAD, initMOSlotBlockAD);
             //对甲板上卸船的block调用编MoveOrder的方法
-            POChooser poChooser = new POChooser();
+            POChooser2 poChooser = new POChooser2();
             poChooser.processOrderAD(moSlotBlockAD);
 
             MOSlotBlock moSlotBlockBD = MoveOrderPTProcess.PTChooserProcess(preStowageListBD, initMOSlotBlockBD);

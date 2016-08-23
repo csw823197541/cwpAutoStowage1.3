@@ -6,21 +6,22 @@ import utils.FileUtil;
 import viewFrame.*;
 
 import java.io.File;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test7_20 {
+public class Test_cos_portugal {
     public static void main(String[] args) {
 
-        String filePath = "7.20data/";
+        String filePath = "COS_PORTUGAL/";
 
-        String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
+        String vo = FileUtil.readFileToString(new File(filePath + "SHBTOS.CWPJUnitvoy.txt")).toString();
 
-        String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
+        String sh = FileUtil.readFileToString(new File(filePath + "SHBTOS.CWPJUnitvesselstructure.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane1.txt")).toString();
 
         String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
@@ -63,13 +64,13 @@ public class Test7_20 {
         groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File(filePath + "SHBTOS.CWPJUnitperstowage.txt")).toString();
 //        String pr = FileUtil.readFileToString(new File("toTempData/tempPreStowage.txt")).toString();
 
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
-//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
-        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);
@@ -84,28 +85,15 @@ public class Test7_20 {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList, preStowageDataList);
-//        cwpResultInfoToMoveList = sortByStartTime(cwpResultInfoToMoveList); //按时间排序
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
         cwpResultMoveInfoFrame.setVisible(true);
 
-        //测试自动配载算法
-        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+//        //测试自动配载算法
+//        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+//
+//        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
+//        MoveFrame moveFrame = new MoveFrame(moveInfoList);
+//        moveFrame.setVisible(true);
 
-        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
-        MoveFrame moveFrame = new MoveFrame(moveInfoList);
-        moveFrame.setVisible(true);
-
-    }
-
-    private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {
-
-        Collections.sort(valueList, new Comparator<CwpResultMoveInfo>() {
-            @Override
-            public int compare(CwpResultMoveInfo o1, CwpResultMoveInfo o2) {
-                return o1.getWorkingStartTime().compareTo(o2.getWorkingStartTime());
-            }
-        });
-
-        return valueList;
     }
 }

@@ -6,15 +6,18 @@ import utils.FileUtil;
 import viewFrame.*;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test7_20 {
+public class Test8_23 {
     public static void main(String[] args) {
 
-        String filePath = "7.20data/";
+        String filePath = "8.23data/";
 
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
@@ -63,13 +66,13 @@ public class Test7_20 {
         groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage1.txt")).toString();
 //        String pr = FileUtil.readFileToString(new File("toTempData/tempPreStowage.txt")).toString();
 
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
-//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
-        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);

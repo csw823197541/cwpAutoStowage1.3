@@ -263,4 +263,56 @@ public class MOSlotBlock {
         return null;
     }
 
+    //得到该位置底层的slot
+    public MOSlot getUnderMOSlot(MOSlotPosition moSlotPosition) {
+        MOSlot moSlot = new MOSlot();
+        int bayInt = moSlotPosition.getBayInt();
+        int rowInt = moSlotPosition.getRowInt();
+        int tierInt = moSlotPosition.getTierInt();
+
+        if (tierInt > 0) {
+            tierInt = tierInt - 2;
+            if (bayInt % 4 == 2) {
+                MOSlotPosition underPosition = new MOSlotPosition(bayInt, rowInt, tierInt);
+                moSlot = this.getMOSlot(underPosition);
+                if (moSlot == null) {
+                    bayInt = bayInt + 1;
+                    MOSlotPosition underPosition03 = new MOSlotPosition(bayInt, rowInt, tierInt);
+                    moSlot = this.getMOSlot(underPosition03);
+                }
+            } else {
+                MOSlotPosition underPosition = new MOSlotPosition(bayInt, rowInt, tierInt);
+                moSlot = this.getMOSlot(underPosition);
+            }
+        }
+
+        return moSlot;
+    }
+
+    //得到该位置上层的slot
+    public MOSlot getUpMOSlot(MOSlotPosition moSlotPosition) {
+        MOSlot moSlot = new MOSlot();
+        int bayInt = moSlotPosition.getBayInt();
+        int rowInt = moSlotPosition.getRowInt();
+        int tierInt = moSlotPosition.getTierInt();
+
+        if(this.tierNoListAsc.size() > 0) {
+            if (tierInt < this.tierNoListAsc.get(tierNoListAsc.size()-1)) {
+                tierInt = tierInt + 2;
+                if (bayInt % 4 == 2) {
+                    MOSlotPosition upPosition = new MOSlotPosition(bayInt, rowInt, tierInt);
+                    moSlot = this.getMOSlot(upPosition);
+                    if (moSlot == null) {
+                        bayInt = bayInt + 1;
+                        MOSlotPosition upPosition03 = new MOSlotPosition(bayInt, rowInt, tierInt);
+                        moSlot = this.getMOSlot(upPosition03);
+                    }
+                } else {
+                    MOSlotPosition upPosition = new MOSlotPosition(bayInt, rowInt, tierInt);
+                    moSlot = this.getMOSlot(upPosition);
+                }
+            }
+        }
+        return moSlot;
+    }
 }
