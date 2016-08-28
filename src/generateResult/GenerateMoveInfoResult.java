@@ -17,7 +17,7 @@ public class GenerateMoveInfoResult {
         List<MoveInfo> moveInfoList = new ArrayList<>();
 
         try{
-            if(autoStowResultInfoList != null) {
+//            if(autoStowResultInfoList != null) {
                 Map<String, AutoStowResultInfo> autoStowResult = new HashMap<>();        //自动配载结果,根据船箱位找到配载的箱子信息
                 for(AutoStowResultInfo autoStowResultInfo : autoStowResultInfoList) {
                     autoStowResult.put(autoStowResultInfo.getVesselPosition(), autoStowResultInfo);
@@ -116,7 +116,7 @@ public class GenerateMoveInfoResult {
                         lastStartTime = startTime;
                     }
                 }
-            }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

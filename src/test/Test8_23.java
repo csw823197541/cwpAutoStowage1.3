@@ -1,7 +1,8 @@
-package importDataProcess;
+package test;
 
 import generateResult.*;
 import importDataInfo.*;
+import importDataProcess.*;
 import utils.FileUtil;
 import viewFrame.*;
 

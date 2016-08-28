@@ -23,16 +23,16 @@ import java.util.*;
 public class MoveOrderTest {
 
     public static void main(String[] args) {
-        String filePath = "6.21data/";
+        String filePath = "8.26data/";
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
         String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
-
-        String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
+//        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
+//
+//        String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
@@ -55,17 +55,17 @@ public class MoveOrderTest {
 //        craneFrame.setVisible(true);
 
 //        //在场箱
-        List<ContainerInfo> containerInfoList = ContainerInfoProcess.getContainerInfo(co);
+//        List<ContainerInfo> containerInfoList = ContainerInfoProcess.getContainerInfo(co);
 //        ContainerFrame containerFrame = new ContainerFrame(containerInfoList);
 //        containerFrame.setVisible(true);
 
 //        //箱区
-        List<ContainerAreaInfo> containerAreaInfoList = ContainerAreaInfoProcess.getContainerAreaInfo(ca);
+//        List<ContainerAreaInfo> containerAreaInfoList = ContainerAreaInfoProcess.getContainerAreaInfo(ca);
 //        ContainerAreaFrame containerAreaFrame = new ContainerAreaFrame(containerAreaInfoList);
 //        containerAreaFrame.setVisible(true);
 
 //        //属性组
-        List<GroupInfo> groupInfoList = GenerateGroupResult.getGroupResult(containerInfoList);
+//        List<GroupInfo> groupInfoList = GenerateGroupResult.getGroupResult(containerInfoList);
 //        GroupFrame groupFrame = new GroupFrame( groupInfoList);
 //        groupFrame.setVisible(true);
 

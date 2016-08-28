@@ -177,7 +177,7 @@ class GeneratePreStowageFromKnowStowage6 {
                 List<Integer> even = new ArrayList<>()//排号为偶数
                 List<Integer> odd = new ArrayList<>()//排号为奇数
                 //先卸40尺的箱子
-//                println tier+"  40尺卸船的排号有："+VRW_ROWNO_D_40
+                println tier+"  40尺卸船的排号有："+VRW_ROWNO_D_40
                 for(Integer rowNum : VRW_ROWNO_D_40) {
                     if(rowNum%2 == 0) {
                         even.add(rowNum)
@@ -229,7 +229,7 @@ class GeneratePreStowageFromKnowStowage6 {
                 }
 
                 //再卸20尺的箱子
-//                println tier+"  20尺卸船的排号有："+VRW_ROWNO_D_20
+                println tier+"  20尺卸船的排号有："+VRW_ROWNO_D_20
                 even.clear()
                 odd.clear()
                 Collections.sort(VRW_ROWNO_D_20)//排序
@@ -283,7 +283,7 @@ class GeneratePreStowageFromKnowStowage6 {
                 List<Integer> even = new ArrayList<>()//排号为偶数
                 List<Integer> odd = new ArrayList<>()//排号为奇数
                 //先卸40尺的箱子
-//                println tier+"  40尺卸船的排号有："+VRW_ROWNO_D_40
+                println tier+"  40尺卸船的排号有："+VRW_ROWNO_D_40
                 for(Integer rowNum : VRW_ROWNO_D_40) {
                     if(rowNum%2 == 0) {
                         even.add(rowNum)
@@ -335,7 +335,7 @@ class GeneratePreStowageFromKnowStowage6 {
                 }
 
                 //再卸20尺的箱子
-//                println tier+"  20尺卸船的排号有："+VRW_ROWNO_D_20
+                println tier+"  20尺卸船的排号有："+VRW_ROWNO_D_20
                 even.clear()
                 odd.clear()
                 for(Integer rowNum : VRW_ROWNO_D_20) {

@@ -7,6 +7,7 @@ import mog.entity.MOSlot
 import mog.entity.MOSlotBlock
 import mog.entity.MOSlotPosition
 import mog.processOrder.POChooser
+import mog.processOrder.POChooser2
 import mog.test.MoveOrderPTProcess
 import utils.FileUtil
 
@@ -96,7 +97,7 @@ public class GenerateMoveOrder2 {
             //对甲板上卸船的block调用生成作业工艺的方法
             MOSlotBlock moSlotBlockAD = MoveOrderPTProcess.PTChooserProcess(preStowageListAD, initMOSlotBlockAD);
             //对甲板上卸船的block调用编MoveOrder的方法
-            POChooser poChooser = new POChooser();
+            POChooser2 poChooser = new POChooser2();
             poChooser.processOrderAD(moSlotBlockAD);
 
             MOSlotBlock moSlotBlockBD = MoveOrderPTProcess.PTChooserProcess(preStowageListBD, initMOSlotBlockBD);

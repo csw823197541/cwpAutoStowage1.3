@@ -58,6 +58,8 @@ public class POChooser2 {
                     } else {
                         moSlotStack.topTierNoDownBy2();
                     }
+                } else {
+                    moSlotStack.topTierNoDownBy2();
                 }
             }
         }
@@ -75,6 +77,8 @@ public class POChooser2 {
                     } else {
                         moSlotStack.topTierNoDownBy2();
                     }
+                } else {
+                    moSlotStack.topTierNoDownBy2();
                 }
             }
         }
@@ -102,6 +106,8 @@ public class POChooser2 {
                     } else {
                         moSlotStack.bottomTierNoUpBy2();
                     }
+                } else {
+                    moSlotStack.bottomTierNoUpBy2();
                 }
             }
         }
@@ -119,6 +125,8 @@ public class POChooser2 {
                     } else {
                         moSlotStack.bottomTierNoUpBy2();
                     }
+                } else {
+                    moSlotStack.bottomTierNoUpBy2();
                 }
             }
         }
@@ -230,7 +238,7 @@ public class POChooser2 {
                             if (underSlot != null) {
                                 if (underSlot.getMoContainer() != null && underSlot.getMoveOrderSeq() == -1) {
                                     isMOYes = false;
-                                    System.out.println("the under container is none moveOrder: " + moSlotPosition.getBayInt() + "--" + moSlotPosition.getRowInt() + "--" + moSlotPosition.getTierInt());
+                                    System.out.println("the under container is not null and none moveOrder: " + moSlotPosition.getBayInt() + "--" + moSlotPosition.getRowInt() + "--" + moSlotPosition.getTierInt());
                                 }
                             }
                         }
@@ -309,13 +317,6 @@ public class POChooser2 {
             int i = 0;
             while (i < workTypes.length) {
                 WorkType wt = workTypes[i];
-//                int count01;
-//                if (isContinueSameTPBottomBay(wt, bay01)) {
-//                    count01 = this.processL(wt, bay01, moSlotBlock);
-//                    if (count01 == 0) {
-//                        i = 0;
-//                    }
-//                }
                 if (isContinueSameTPBottom(wt, moSlotBlock)) {
                     int count01, count03;
                     //先从01贝开始

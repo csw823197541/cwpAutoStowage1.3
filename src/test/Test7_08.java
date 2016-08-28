@@ -1,7 +1,8 @@
-package importDataProcess;
+package test;
 
 import generateResult.*;
 import importDataInfo.*;
+import importDataProcess.*;
 import utils.FileUtil;
 import viewFrame.*;
 
@@ -12,18 +13,18 @@ import java.util.Map;
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test6_21 {
+public class Test7_08 {
     public static void main(String[] args) {
 
-        String vo = FileUtil.readFileToString(new File("6.21data/Cwpvoyage.txt")).toString();
+        String vo = FileUtil.readFileToString(new File("7.08data/Cwpvoyage.txt")).toString();
 
-        String sh = FileUtil.readFileToString(new File("6.21data/vslstr.txt")).toString();
+        String sh = FileUtil.readFileToString(new File("7.08data/vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File("6.21data/crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File("7.08data/crane.txt")).toString();
 
-        String co = FileUtil.readFileToString(new File("6.21data/containers.txt")).toString();
+        String co = FileUtil.readFileToString(new File("7.08data/containers.txt")).toString();
 
-        String ca = FileUtil.readFileToString(new File("6.21data/area.txt")).toString();
+        String ca = FileUtil.readFileToString(new File("7.08data/area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
@@ -61,44 +62,43 @@ public class Test6_21 {
         groupFrame.setVisible(true);
 
         //实配图
-        String pr = FileUtil.readFileToString(new File("6.21data/cwpperstowage.txt")).toString();
+        String pr = FileUtil.readFileToString(new File("7.08data/cwpperstowage.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
         //测试根据实配图生成预配图
-//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
-        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);
 
         //调用cwp算法得到结果
         List<CwpResultInfo> cwpResultInfoList = GenerateCwpResult.getCwpResult(voyageInfoList, vesselStructureInfoList, craneInfoList, resultList);
+        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoList, craneInfoList, null);
+        cwpResultFrame.setVisible(true);
 
         //对cwp结果进行处理，将连续作业的cwp块放到一起，以及对作业于某个舱所有的桥机进行编顺序，和某桥机作业舱的顺序
         List<CwpResultInfo> cwpResultInfoTransformList =  CwpResultInfoTransform.getTransformResult(cwpResultInfoList);
-        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoTransformList, craneInfoList, null);
-        cwpResultFrame.setVisible(true);
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpResultInfoList, preStowageDataList);
-//        CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
-//        cwpResultMoveInfoFrame.setVisible(true);
+        CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
+        cwpResultMoveInfoFrame.setVisible(true);
 
-//        //为了测试数据，从文件中读取cwp结果
-//        String cwpRe = FileUtil.readFileToString(new File("6.21data/cswRe(1).txt")).toString();
-//        List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultMoveInfoProcess.getCwpResultMoveInfoList(cwpRe);
-//        CwpResultMoveInfoFrame cwpResultMoveInfoFrame1 = new CwpResultMoveInfoFrame(cwpResultMoveInfoList);
-//        cwpResultMoveInfoFrame1.setVisible(true);
-//
-//        //测试自动配载算法
-//        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultMoveInfoList);
-//
-//        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultMoveInfoList, autoStowInfoList);
-//        MoveFrame moveFrame = new MoveFrame(moveInfoList);
-//        moveFrame.setVisible(true);
-//
-//        //可视化显示配载结果
-//        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
-//        vesselImageFrame.setVisible(true);
+        //为了测试数据，从文件中读取cwp结果
+        String cwpRe = FileUtil.readFileToString(new File("7.08data/cwpRe(2).txt")).toString();
+        List<CwpResultMoveInfo> cwpResultMoveInfoList = CwpResultMoveInfoProcess.getCwpResultMoveInfoList(cwpRe);
+        CwpResultMoveInfoFrame cwpResultMoveInfoFrame1 = new CwpResultMoveInfoFrame(cwpResultMoveInfoList);
+        cwpResultMoveInfoFrame1.setVisible(true);
+
+        //测试自动配载算法
+        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+
+        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
+        MoveFrame moveFrame = new MoveFrame(moveInfoList);
+        moveFrame.setVisible(true);
+
+        //可视化显示配载结果
+        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
+        vesselImageFrame.setVisible(true);
 
     }
 }
