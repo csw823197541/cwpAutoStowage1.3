@@ -1,6 +1,9 @@
 package test;
 
-import generateResult.*;
+import generateResult.GenerateBayPositionQuery;
+import generateResult.GenerateCwpResult;
+import generateResult.GenerateMoveInfoResult;
+import generateResult.GeneratePreStowageFromKnowStowage6;
 import importDataInfo.*;
 import importDataProcess.*;
 import utils.FileUtil;
@@ -12,10 +15,10 @@ import java.util.*;
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test8_26 {
+public class Test8_29 {
     public static void main(String[] args) {
 
-        String filePath = "8.26data/";
+        String filePath = "8.29data/";
 
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
@@ -71,8 +74,8 @@ public class Test8_26 {
         PreStowageDataFrame preStowageFrame = new PreStowageDataFrame(preStowageDataList);
         preStowageFrame.setVisible(true);
         //测试根据实配图生成预配图
-//        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
-        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
+        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
+//        List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
         System.out.println(resultList.size());
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);

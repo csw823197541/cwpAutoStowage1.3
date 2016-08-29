@@ -272,7 +272,7 @@ public class POChooser2 {
         Map<Integer, MOSlotStack> bay03 = moSlotBlock.getBay03();
 
         WorkType[] workTypes = new WorkType[]{new WorkType(1, "2"), new WorkType(1, "4"),
-                new WorkType(2, "4"), new WorkType(2, "2")};
+                new WorkType(2, "4"), new WorkType(2, "2"), new WorkType(2, "4"), new WorkType(1, "4"), new WorkType(1, "2")};
 
         while (isAllMOSlotStackEmpty(moSlotBlock)) {
             //对栈顶元素进行编序
@@ -280,24 +280,73 @@ public class POChooser2 {
             while (i < workTypes.length) {
                 WorkType wt = workTypes[i];
                 if (isContinueSameTPTop(wt, moSlotBlock)) {
-                    //先从01贝开始
-                    int count01 = this.processD(wt, bay01, moSlotBlock);
-                    //再从03贝开始
-                    int count03 = this.processD(wt, bay03, moSlotBlock);
+                    int count01 = -1, count03 = -1;
+                    W:while (isContinueSameTPTopBay(wt, bay01)) {
+                        count01= this.processD(wt, bay01, moSlotBlock);
+                        if (count01 == 0) {
+                            break W;
+                        }
+                    }
+                    W:while (isContinueSameTPTopBay(wt, bay03)) {
+                        count03= this.processD(wt, bay03, moSlotBlock);
+                        if (count03 == 0) {
+                            break W;
+                        }
+                    }
                     if (count01 == 0 && count03 == 0) {
                         i = 0;
                     } else {
                         if (!isContinueSameTPTop(wt, moSlotBlock)) {
-                            i = 0;
+                            i++;
                         }
                     }
                 } else {
                     i++;
                 }
+//                if (isContinueSameTPTop(wt, moSlotBlock)) {
+//                    //先从01贝开始
+//                    int count01 = this.processD(wt, bay01, moSlotBlock);
+//                    //再从03贝开始
+//                    int count03 = this.processD(wt, bay03, moSlotBlock);
+//                    if (count01 == 0 && count03 == 0) {
+//                        i = 0;
+//                    } else {
+//                        if (!isContinueSameTPTop(wt, moSlotBlock)) {
+//                            i = 0;
+//                        }
+//                    }
+//                } else {
+//                    i++;
+//                }
             }
         }
 
         return moSlotBlock;
+    }
+
+    private boolean isContinueSameTPTopBay(WorkType wt, Map<Integer, MOSlotStack> bay) {
+        boolean result = false;
+
+        for (MOSlotStack moSlotStack : bay.values()) {
+            MOSlot moSlot = moSlotStack.getTopMOSlot();
+            if (moSlot != null) {
+                if (moSlot.getMoveOrderSeq() == -1) {//没有编过MoveOrder
+                    MOContainer moContainer = moSlot.getMoContainer();
+                    Set<MOSlotPosition> moSlotPositionSet = moSlot.getMoSlotPositionSet();
+                    if (moContainer != null && !moSlotPositionSet.isEmpty()) {
+                        if (moContainer.size.startsWith(wt.size) && wt.n == moSlotPositionSet.size()) {
+                            result = true;
+                        }
+                    } else {
+                        moSlotStack.topTierNoDownBy2();
+                    }
+                } else {
+                    moSlotStack.topTierNoDownBy2();
+                }
+            }
+        }
+
+        return result;
     }
 
     public MOSlotBlock processOrderBD(MOSlotBlock moSlotBlock) {
@@ -311,28 +360,55 @@ public class POChooser2 {
         Map<Integer, MOSlotStack> bay03 = moSlotBlock.getBay03();
 
         WorkType[] workTypes = new WorkType[]{new WorkType(1, "2"), new WorkType(2, "2"),
-                new WorkType(1, "4"), new WorkType(2, "4")};
+                new WorkType(1, "4"), new WorkType(2, "4"), new WorkType(1, "4"), new WorkType(2, "2"), new WorkType(1, "2")};
 
+//        int n = 0;
+//        while (n < 10000) {
+//            n++;
         while (isAllMOSlotStackEmpty(moSlotBlock)) {
             int i = 0;
             while (i < workTypes.length) {
                 WorkType wt = workTypes[i];
                 if (isContinueSameTPBottom(wt, moSlotBlock)) {
-                    int count01, count03;
-                    //先从01贝开始
-                    count01 = this.processL(wt, bay01, moSlotBlock);
-                    //再从03贝开始
-                    count03 = this.processL(wt, bay03, moSlotBlock);
+                    int count01 = -1, count03 = -1;
+                    W:while (isContinueSameTPBottomBay(wt, bay01)) {
+                        count01= this.processL(wt, bay01, moSlotBlock);
+                        if (count01 == 0) {
+                            break W;
+                        }
+                    }
+                    W:while (isContinueSameTPBottomBay(wt, bay03)) {
+                        count03= this.processL(wt, bay03, moSlotBlock);
+                        if (count03 == 0) {
+                            break W;
+                        }
+                    }
                     if (count01 == 0 && count03 == 0) {
                         i = 0;
                     } else {
                         if (!isContinueSameTPBottom(wt, moSlotBlock)) {
-                            i = 0;
+                            i++;
                         }
                     }
                 } else {
                     i++;
                 }
+//                if (isContinueSameTPBottom(wt, moSlotBlock)) {
+//                    int count01, count03;
+//                    //先从01贝开始
+//                    count01 = this.processL(wt, bay01, moSlotBlock);
+//                    //再从03贝开始
+//                    count03 = this.processL(wt, bay03, moSlotBlock);
+//                    if (count01 == 0 && count03 == 0) {
+//                        i = 0;
+//                    } else {
+//                        if (!isContinueSameTPBottom(wt, moSlotBlock)) {
+//                            i = 0;
+//                        }
+//                    }
+//                } else {
+//                    i++;
+//                }
             }
         }
 

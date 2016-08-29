@@ -158,13 +158,20 @@ public class MOSlotBlock {
 
         MOSlot moSlot = null;
         if (moSlotPosition.getBayInt() % 4 == 1) { //第一个小贝
-            moSlot = bay01.get(moSlotPosition.getRowInt()).getMOSlot(moSlotPosition.getTierInt());
+            if (bay01.get(moSlotPosition.getRowInt()) != null) {
+                moSlot = bay01.get(moSlotPosition.getRowInt()).getMOSlot(moSlotPosition.getTierInt());
+            }
         }
         if (moSlotPosition.getBayInt() % 4 == 3) { //第二个小贝
-            moSlot = bay03.get(moSlotPosition.getRowInt()).getMOSlot(moSlotPosition.getTierInt());
+            if (bay03.get(moSlotPosition.getRowInt()) != null) {
+                moSlot = bay03.get(moSlotPosition.getRowInt()).getMOSlot(moSlotPosition.getTierInt());
+            }
         }
         if (moSlotPosition.getBayInt() % 4 == 2) { //大贝,取第一个小贝
-            moSlot = bay01.get(moSlotPosition.getRowInt()).getMOSlot(moSlotPosition.getTierInt());
+//            System.out.println(moSlotPosition.getBayInt() + "-" + moSlotPosition.getRowInt() + "-" + moSlotPosition.getTierInt());
+            if (bay01.get(moSlotPosition.getRowInt()) != null) {
+                moSlot = bay01.get(moSlotPosition.getRowInt()).getMOSlot(moSlotPosition.getTierInt());
+            }
         }
         return moSlot;
 
@@ -223,6 +230,7 @@ public class MOSlotBlock {
         int rowInt = moSlotPosition.getRowInt();
         int tierInt = moSlotPosition.getTierInt();
         //后面slot的
+        System.out.println(moSlotPosition.getBayInt() + "-" + moSlotPosition.getRowInt() + "-" + moSlotPosition.getTierInt());
         MOSlot moSlot;
         if (rowInt == rowSeqList.get(rowSeqList.size() - 1)) {
             moSlot = null;
@@ -234,6 +242,7 @@ public class MOSlotBlock {
                 }
             }
             MOSlotPosition nextPosition = new MOSlotPosition(bayInt, nextRowInt, tierInt);
+//            System.out.println("next: " + nextPosition.getBayInt() + "-" + nextPosition.getRowInt() + "-" + nextPosition.getTierInt());
             moSlot = this.getMOSlot(nextPosition);
         }
         return moSlot;

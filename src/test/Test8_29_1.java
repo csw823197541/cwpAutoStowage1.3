@@ -7,15 +7,18 @@ import utils.FileUtil;
 import viewFrame.*;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by csw on 2016/1/21.
  */
-public class Test8_26 {
+public class Test8_29_1 {
     public static void main(String[] args) {
 
-        String filePath = "8.26data/";
+        String filePath = "8.29.1data/";
 
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
@@ -23,10 +26,10 @@ public class Test8_26 {
 
         String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
 
-//        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
+        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
 
-//        String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
+        String ca = FileUtil.readFileToString(new File(filePath + "area.txt")).toString();
 
         //航次
         List<VoyageInfo> voyageInfoList = VoyageInfoProcess.getVoyageInfo(vo);
@@ -49,27 +52,25 @@ public class Test8_26 {
         craneFrame.setVisible(true);
 
 //        //在场箱
-//        List<ContainerInfo> containerInfoList = ContainerInfoProcess.getContainerInfo(co);
-//        ContainerFrame containerFrame = new ContainerFrame(containerInfoList);
-//        containerFrame.setVisible(true);
+        List<ContainerInfo> containerInfoList = ContainerInfoProcess.getContainerInfo(co);
+        ContainerFrame containerFrame = new ContainerFrame(containerInfoList);
+        containerFrame.setVisible(true);
 
 //        //箱区
-//        List<ContainerAreaInfo> containerAreaInfoList = ContainerAreaInfoProcess.getContainerAreaInfo(ca);
-//        ContainerAreaFrame containerAreaFrame = new ContainerAreaFrame(containerAreaInfoList);
-//        containerAreaFrame.setVisible(true);
+        List<ContainerAreaInfo> containerAreaInfoList = ContainerAreaInfoProcess.getContainerAreaInfo(ca);
+        ContainerAreaFrame containerAreaFrame = new ContainerAreaFrame(containerAreaInfoList);
+        containerAreaFrame.setVisible(true);
 
 //        //属性组
-//        List<GroupInfo> groupInfoList = GenerateGroupResult.getGroupResult(containerInfoList);
-//        GroupFrame groupFrame = new GroupFrame( groupInfoList);
-//        groupFrame.setVisible(true);
+        List<GroupInfo> groupInfoList = GenerateGroupResult.getGroupResult(containerInfoList);
+        GroupFrame groupFrame = new GroupFrame( groupInfoList);
+        groupFrame.setVisible(true);
 
         //实配图
         String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
 //        String pr = FileUtil.readFileToString(new File("toTempData/tempPreStowage.txt")).toString();
 
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
-        PreStowageDataFrame preStowageFrame = new PreStowageDataFrame(preStowageDataList);
-        preStowageFrame.setVisible(true);
         //测试根据实配图生成预配图
 //        List<PreStowageData> resultList = GeneratePreStowageFromKnowStowage6.getPreStowageResult(preStowageDataList);
         List<PreStowageData> resultList = GenerateMoveOrder.generateMoveOrder(preStowageDataList, vesselStructureInfoList);
@@ -92,9 +93,9 @@ public class Test8_26 {
         cwpResultMoveInfoFrame.setVisible(true);
 
         //测试自动配载算法
-//        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
-//
-        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, new ArrayList<AutoStowResultInfo>());
+        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+
+        List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 

@@ -23,7 +23,7 @@ import java.util.*;
 public class MoveOrderTest {
 
     public static void main(String[] args) {
-        String filePath = "8.26data/";
+        String filePath = "8.29.1data/";
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
