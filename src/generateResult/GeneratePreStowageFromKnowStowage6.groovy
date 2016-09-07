@@ -486,7 +486,7 @@ class GeneratePreStowageFromKnowStowage6 {
             if(tier < 50) {//甲板下
                 //对同一层装船的舱位进行处理，甲板下由中央向两边,开始
                 //先装20尺的箱子
-//                println tier+"  20尺装船的排号有："+VRW_ROWNO_L_20
+                println tier+"  20尺装船的排号有："+VRW_ROWNO_L_20
                 Collections.sort(VRW_ROWNO_L_20)//排序
                 for(int j = 0; j < VRW_ROWNO_L_20.size(); ) {//从小到大，甲板下由中央向两边
                     if(j == VRW_ROWNO_L_20.size()-1) {
@@ -531,7 +531,7 @@ class GeneratePreStowageFromKnowStowage6 {
                     seq++
                 }
                 //再装40尺的箱子,（全部用单吊具1排）
-//                println tier+"  40尺装船的排号有："+VRW_ROWNO_L_40
+                println tier+"  40尺装船的排号有："+VRW_ROWNO_L_40
                 Collections.sort(VRW_ROWNO_L_40)
                 for(int p = 0; p < VRW_ROWNO_L_40.size(); p++) {//从小到大
                     stringListMap_L_40.get(largeBay.get(0)+"."+tier+"."+VRW_ROWNO_L_40.get(p)).setMOVEORDER(seq)
@@ -545,7 +545,7 @@ class GeneratePreStowageFromKnowStowage6 {
                 List<Integer> odd = new ArrayList<>()//排号为奇数
                 //再对同一层装船的舱位进行处理，甲板上装船编顺序，由海侧向陆侧,开始
                 //先装20尺的箱子
-//                println tier+"  20尺装船的排号有："+VRW_ROWNO_L_20
+                println tier+"  20尺装船的排号有："+VRW_ROWNO_L_20
                 even.clear()
                 odd.clear()
                 for(Integer rowNum : VRW_ROWNO_L_20) {
@@ -642,7 +642,7 @@ class GeneratePreStowageFromKnowStowage6 {
                     seq++
                 }
                 //再装40尺的箱子
-//                println tier+"  40尺装船的排号有："+VRW_ROWNO_L_40
+                println tier+"  40尺装船的排号有："+VRW_ROWNO_L_40
                 even.clear()
                 odd.clear()
                 for(Integer rowNum : VRW_ROWNO_L_40) {

@@ -40,64 +40,66 @@ public class CwpResultInfoToMove {
         for(CwpResultInfo cwpResultInfo : cwpResultInfoListIn) {
 
             int moveCount = cwpResultInfo.getMOVECOUNT();
-            int startTime = cwpResultInfo.getREALWORKINGSTARTTIME();
-            int endTime = cwpResultInfo.getWORKINGENDTIME();
-            Date startTimeDate = cwpResultInfo.getWorkingStartTime();
-            int singleMoveWorkTime = (endTime-startTime)/moveCount; //做一个move的时间
+            if (moveCount != 0) {
+                int startTime = cwpResultInfo.getREALWORKINGSTARTTIME();
+                int endTime = cwpResultInfo.getWORKINGENDTIME();
+                Date startTimeDate = cwpResultInfo.getWorkingStartTime();
+                int singleMoveWorkTime = (endTime-startTime)/moveCount; //做一个move的时间
 
-            String craneId = cwpResultInfo.getCRANEID();
-            String hatchId = cwpResultInfo.getHATCHID();
-            String vesselId = cwpResultInfo.getVESSELID();
-            String moveType = cwpResultInfo.getMOVETYPE();
-            String LD = cwpResultInfo.getLDULD();
-            Double cranePosition = cwpResultInfo.getCranesPosition();
+                String craneId = cwpResultInfo.getCRANEID();
+                String hatchId = cwpResultInfo.getHATCHID();
+                String vesselId = cwpResultInfo.getVESSELID();
+                String moveType = cwpResultInfo.getMOVETYPE();
+                String LD = cwpResultInfo.getLDULD();
+                Double cranePosition = cwpResultInfo.getCranesPosition();
 
-            int startMoveOrder = cwpResultInfo.getStartMoveID();
+                int startMoveOrder = cwpResultInfo.getStartMoveID();
 
-            for(int i = 0; i < moveCount; i++) {   //有多少个move，就拆成几个对象
+                for(int i = 0; i < moveCount; i++) {   //有多少个move，就拆成几个对象
 
-                int moveOrder = startMoveOrder + i;
-                //舱.作业序列.作业工艺为关键字,查找船箱位
-                String key = hatchId + "." + moveOrder + "." + moveType;
-                List<String> vesselPosition = moveOrderRecords.get(key);
-                if(vesselPosition != null) {
-                    for(String vesselPositionStr : vesselPosition) {    //有多少个船箱位，结果就有多少个对象
-                        CwpResultMoveInfo cwpResultMoveInfo = new CwpResultMoveInfo();
+                    int moveOrder = startMoveOrder + i;
+                    //舱.作业序列.作业工艺为关键字,查找船箱位
+                    String key = hatchId + "." + moveOrder + "." + moveType;
+                    List<String> vesselPosition = moveOrderRecords.get(key);
+                    if(vesselPosition != null) {
+                        for(String vesselPositionStr : vesselPosition) {    //有多少个船箱位，结果就有多少个对象
+                            CwpResultMoveInfo cwpResultMoveInfo = new CwpResultMoveInfo();
 
-                        cwpResultMoveInfo.setMoveOrder(moveOrder);     //作业顺序
-                        cwpResultMoveInfo.setWorkingStartTime(new Date(startTimeDate.getTime() + (i)*singleMoveWorkTime*1000));
-                        cwpResultMoveInfo.setWorkingEndTime(new Date(startTimeDate.getTime() + (i+1)*singleMoveWorkTime*1000));
-                        cwpResultMoveInfo.setWORKINGSTARTTIME(startTime + (i)*singleMoveWorkTime);
-                        cwpResultMoveInfo.setWORKINGENDTIME(startTime + (i+1)*singleMoveWorkTime);
-                        cwpResultMoveInfo.setMoveWorkTime(singleMoveWorkTime);
+                            cwpResultMoveInfo.setMoveOrder(moveOrder);     //作业顺序
+                            cwpResultMoveInfo.setWorkingStartTime(new Date(startTimeDate.getTime() + (i)*singleMoveWorkTime*1000));
+                            cwpResultMoveInfo.setWorkingEndTime(new Date(startTimeDate.getTime() + (i+1)*singleMoveWorkTime*1000));
+                            cwpResultMoveInfo.setWORKINGSTARTTIME(startTime + (i)*singleMoveWorkTime);
+                            cwpResultMoveInfo.setWORKINGENDTIME(startTime + (i+1)*singleMoveWorkTime);
+                            cwpResultMoveInfo.setMoveWorkTime(singleMoveWorkTime);
 
-                        cwpResultMoveInfo.setCRANEID(craneId);
-                        cwpResultMoveInfo.setHATCHID(hatchId);
-                        cwpResultMoveInfo.setVESSELID(vesselId);
-                        cwpResultMoveInfo.setMOVETYPE(moveType);
-                        cwpResultMoveInfo.setLDULD(LD);
+                            cwpResultMoveInfo.setCRANEID(craneId);
+                            cwpResultMoveInfo.setHATCHID(hatchId);
+                            cwpResultMoveInfo.setVESSELID(vesselId);
+                            cwpResultMoveInfo.setMOVETYPE(moveType);
+                            cwpResultMoveInfo.setLDULD(LD);
 
-                        String[] vps = vesselPositionStr.split("\\.");
-                        String vp = vps[1] + "" + vps[3] + "" + vps[2];
-                        cwpResultMoveInfo.setVesselPosition(vp);
+                            String[] vps = vesselPositionStr.split("\\.");
+                            String vp = vps[1] + "" + vps[3] + "" + vps[2];
+                            cwpResultMoveInfo.setVesselPosition(vp);
 
-                        if("L".equals(LD)) {
-                            PreStowageData preStowageData = preStowageDataMapL.get(vp);
-                            cwpResultMoveInfo.setSize(preStowageData.getSIZE());
-                            String bayId = preStowageData.getVBYBAYID();
-                            cwpResultMoveInfo.setHATCHBWID(bayId);
-                        } else {
-                            PreStowageData preStowageData = preStowageDataMapD.get(vp);
-                            cwpResultMoveInfo.setSize(preStowageData.getSIZE());
-                            String bayId = preStowageData.getVBYBAYID();
-                            cwpResultMoveInfo.setHATCHBWID(bayId);
+                            if("L".equals(LD)) {
+                                PreStowageData preStowageData = preStowageDataMapL.get(vp);
+                                cwpResultMoveInfo.setSize(preStowageData.getSIZE());
+                                String bayId = preStowageData.getVBYBAYID();
+                                cwpResultMoveInfo.setHATCHBWID(bayId);
+                            } else {
+                                PreStowageData preStowageData = preStowageDataMapD.get(vp);
+                                cwpResultMoveInfo.setSize(preStowageData.getSIZE());
+                                String bayId = preStowageData.getVBYBAYID();
+                                cwpResultMoveInfo.setHATCHBWID(bayId);
+                            }
+                            cwpResultMoveInfo.setCranesPosition(cranePosition);
+
+                            resultInfoList.add(cwpResultMoveInfo);
                         }
-                        cwpResultMoveInfo.setCranesPosition(cranePosition);
-
-                        resultInfoList.add(cwpResultMoveInfo);
                     }
-                }
 
+                }
             }
         }
 

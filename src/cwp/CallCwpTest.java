@@ -10,7 +10,7 @@ public class CallCwpTest {
 //        System.loadLibrary("cwp_to_java3");
         String filePath = System.getProperty("user.dir") + File.separator + "lib" + File.separator;
 
-        System.load(filePath + "cwp_to_java4.dll");
+        System.load(filePath + "cwp_to_java5.dll");
 
     }
       
