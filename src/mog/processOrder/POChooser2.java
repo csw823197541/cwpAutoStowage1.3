@@ -274,7 +274,8 @@ public class POChooser2 {
         WorkType[] workTypes = new WorkType[]{new WorkType(1, "2"), new WorkType(1, "4"),
                 new WorkType(2, "4"), new WorkType(2, "2"), new WorkType(2, "4"), new WorkType(1, "4"), new WorkType(1, "2")};
 
-        while (isAllMOSlotStackEmpty(moSlotBlock)) {
+        int n = 0;
+        WW:while (isAllMOSlotStackEmpty(moSlotBlock)) {
             //对栈顶元素进行编序
             int i = 0;
             while (i < workTypes.length) {
@@ -303,21 +304,12 @@ public class POChooser2 {
                 } else {
                     i++;
                 }
-//                if (isContinueSameTPTop(wt, moSlotBlock)) {
-//                    //先从01贝开始
-//                    int count01 = this.processD(wt, bay01, moSlotBlock);
-//                    //再从03贝开始
-//                    int count03 = this.processD(wt, bay03, moSlotBlock);
-//                    if (count01 == 0 && count03 == 0) {
-//                        i = 0;
-//                    } else {
-//                        if (!isContinueSameTPTop(wt, moSlotBlock)) {
-//                            i = 0;
-//                        }
-//                    }
-//                } else {
-//                    i++;
-//                }
+            }
+
+            n++;
+            if (n > 10000) {
+                System.out.println("Out of the endless loop (D)");
+                break WW;
             }
         }
 
@@ -362,10 +354,8 @@ public class POChooser2 {
         WorkType[] workTypes = new WorkType[]{new WorkType(1, "2"), new WorkType(2, "2"),
                 new WorkType(1, "4"), new WorkType(2, "4"), new WorkType(1, "4"), new WorkType(2, "2"), new WorkType(1, "2")};
 
-//        int n = 0;
-//        while (n < 10000) {
-//            n++;
-        while (isAllMOSlotStackEmpty(moSlotBlock)) {
+        int n = 0;
+        WW:while (isAllMOSlotStackEmpty(moSlotBlock)) {
             int i = 0;
             while (i < workTypes.length) {
                 WorkType wt = workTypes[i];
@@ -393,22 +383,12 @@ public class POChooser2 {
                 } else {
                     i++;
                 }
-//                if (isContinueSameTPBottom(wt, moSlotBlock)) {
-//                    int count01, count03;
-//                    //先从01贝开始
-//                    count01 = this.processL(wt, bay01, moSlotBlock);
-//                    //再从03贝开始
-//                    count03 = this.processL(wt, bay03, moSlotBlock);
-//                    if (count01 == 0 && count03 == 0) {
-//                        i = 0;
-//                    } else {
-//                        if (!isContinueSameTPBottom(wt, moSlotBlock)) {
-//                            i = 0;
-//                        }
-//                    }
-//                } else {
-//                    i++;
-//                }
+            }
+
+            n++;
+            if (n > 10000) {
+                System.out.println("Out of the endless loop (L)");
+                break WW;
             }
         }
 

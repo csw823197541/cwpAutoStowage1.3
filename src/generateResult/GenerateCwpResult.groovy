@@ -45,7 +45,7 @@ class GenerateCwpResult {
             String cwpResultStr = null
 
             try {
-                String craneSize = String.valueOf(craneInfoList.size() - 1);
+                int craneSize = craneInfoList.size();
 //                Collections.sort(craneInfoList, new Comparator<CraneInfo>() {
 //                    @Override
 //                    int compare(CraneInfo o1, CraneInfo o2) {
@@ -56,9 +56,15 @@ class GenerateCwpResult {
                 CraneInfo craneInfoI = craneInfoList.get(craneInfoList.size() - 1);
                 String increaseTime = String.valueOf((craneInfoI.getWORKINGTIMERANGES().get(0).getWORKSTARTTIME().time - craneInfo0.getWORKINGTIMERANGES().get(0).getWORKSTARTTIME().time) / 1000);
                 String decreaseTime = String.valueOf((craneInfoI.getWORKINGTIMERANGES().get(0).getWORKENDTIME().time - craneInfoI.getWORKINGTIMERANGES().get(0).getWORKSTARTTIME().time) / 1000);
+//                if ("0".equals(increaseTime)) {
+//
+//                    cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize + "", "1000000", "2000000");
+//                } else {
+//                    cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize - 1 + "", increaseTime, decreaseTime);
+//                }
 
-                cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize, increaseTime, decreaseTime);
-//                cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize, "10000", "200000");
+//                cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize - 1 + "", increaseTime, decreaseTime);
+                cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, "4", "1000000", "2000000");
             } catch (Exception e) {
                 e.printStackTrace();
             }
