@@ -18,7 +18,7 @@ import java.util.Map;
 public class DiZhongHaiPaLuoMa {
     public static void main(String[] args) {
 
-        String filePath = "9.7data/DiZhongHaiPaLuoMa/";
+        String filePath = "9.7data/DiZhongHaiPaLuoMa1/";
 
         String vo = FileUtil.readFileToString(new File(filePath + "Cwpvoyage.txt")).toString();
 
