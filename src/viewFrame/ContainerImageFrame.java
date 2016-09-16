@@ -45,8 +45,18 @@ public class ContainerImageFrame extends JFrame{
         int maxRowUnder = 0;
         int maxRowAbove = 0;
 
-        Map<String,String[]> autoStowResult = ImportData.autoStowResult;        //自动配载结果
-        //统计选定bay的数据：层和拍
+        Map<String,String[]> autoStowResult = new HashMap<>();        //自动配载结果
+
+        for(AutoStowResultInfo autoStowResultInfo : autoStowInfoList) {
+            String[] value = new String[4];
+            value[0] = autoStowResultInfo.getAreaPosition();
+            value[1] = autoStowResultInfo.getUnitID();
+            value[2] = autoStowResultInfo.getSize();
+            value[3] = autoStowResultInfo.getWeightLevel();
+            autoStowResult.put(autoStowResultInfo.getVesselPosition(), value);
+        }
+
+//        统计选定bay的数据：层和拍
         for (VesselStructureInfo vesselStructureInfo : vesselStructureInfoList) {
            // rowData[4] = Integer.valueOf(vesselStructureInfo.getVHTID());      //舱次
             rowData[0] = Integer.valueOf(vesselStructureInfo.getVBYBAYID());     //倍
@@ -184,7 +194,7 @@ public class ContainerImageFrame extends JFrame{
                                 btn[i][j].setText("未配载!");
                             }else {
                                 btn[i][j].setFont(new Font("宋体",Font.BOLD,10));
-                                btn[i][j].setText("<html>"+resultInBay.get(loc)[1]+"<br>"+resultInBay.get(loc)[0]+"<br>"+"尺寸"+resultInBay.get(loc)[2]+"</html>");
+                                btn[i][j].setText("<html>"+resultInBay.get(loc)[1]+"<br>"+resultInBay.get(loc)[0]+"<br>"+"尺寸"+resultInBay.get(loc)[2]+"<br>"+"重量等级"+resultInBay.get(loc)[3]+"</html>");
                             }
                         }
                     }

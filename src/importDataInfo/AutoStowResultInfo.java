@@ -11,6 +11,16 @@ public class AutoStowResultInfo {
     private Long voyId;    //艘次信息
     private String unStowedReason;  //未配载原因
 
+    private String weightLevel; //重量等级
+
+    public String getWeightLevel() {
+        return weightLevel;
+    }
+
+    public void setWeightLevel(String weightLevel) {
+        this.weightLevel = weightLevel;
+    }
+
     public String getUnStowedReason() {
         return unStowedReason;
     }

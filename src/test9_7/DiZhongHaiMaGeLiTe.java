@@ -99,6 +99,10 @@ public class DiZhongHaiMaGeLiTe {
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
+        //可视化显示配载结果
+        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
+        vesselImageFrame.setVisible(true);
+
     }
 
     private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {

@@ -45,8 +45,9 @@ public class VesselImageFrame extends JFrame {
     private List<VesselStructureInfo> vesselStructureInfoList;
     private List<AutoStowResultInfo> autoStowInfoList;
 
-   public VesselImageFrame(List<VesselStructureInfo> vesselStructureInfoList) {
+   public VesselImageFrame(List<VesselStructureInfo> vesselStructureInfoList, List<AutoStowResultInfo> autoStowInfoList) {
        this.vesselStructureInfoList = vesselStructureInfoList;
+       this.autoStowInfoList = autoStowInfoList;
        initComponents();
    }
 

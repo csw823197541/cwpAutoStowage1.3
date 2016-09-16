@@ -97,9 +97,9 @@ public class Test7_11 {
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
-        //可视化显示配载结果
-        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
-        vesselImageFrame.setVisible(true);
+//        //可视化显示配载结果
+//        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList);
+//        vesselImageFrame.setVisible(true);
 
 
     }

@@ -47,7 +47,8 @@ public class GenerateAutoStowResult {
         String autoStowStr = null;
         if (containerStr != null && containerAreaStr != null && preStowageStr != null && cwpResultStr != null) {
             //调用自动配载算法
-            autoStowStr = CallAutoStow.autoStow(containerStr, containerAreaStr, preStowageStr, cwpResultStr);
+//            autoStowStr = CallAutoStow.autoStow(containerStr, containerAreaStr, preStowageStr, cwpResultStr);
+            autoStowStr = FileUtil.readFileToString(new File("toAutoStowJsonData/StowageResult.txt")).toString();
 
             try {//将自动配载要用的结果写在文件里
                 FileUtil.writeToFile("toAutoStowJsonData/autoStowResult.txt", autoStowStr);
@@ -123,6 +124,7 @@ public class GenerateAutoStowResult {
                 autoStowResultInfo.setVesselPosition(vesselPosition);
                 autoStowResultInfo.setVoyId(voyId);
                 autoStowResultInfo.setUnStowedReason(unStowedReason);
+                autoStowResultInfo.setWeightLevel(autoStowResult.WeightLevel);
                 autoStowResultInfoList.add(autoStowResultInfo);
             }
         } catch (Exception e) {
